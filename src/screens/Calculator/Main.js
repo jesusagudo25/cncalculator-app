@@ -142,6 +142,53 @@ const Ingredients = (props) => {
 };
 
 const Result = (props) => {
+
+    const calculate = () => {
+        let averageCarbonLess = 0;
+        let averageCarbonMore = 0;
+        let averageNitrogenLess = 0;
+        let averageNitrogenMore = 0;
+
+        let contLess = 0;
+        let contMore = 0;
+
+        props.ingredients.map((item, index) => {
+            props.ingredientsSelected.map((itemSelected, indexSelected) => {
+                if (item.id === itemSelected.id && itemSelected.checked) {
+                    if (item.carbon_nitrogen <= props.cn) {
+                        averageCarbonLess += item.carbon;
+                        averageNitrogenLess += item.nitrogen;
+                        contLess++;
+                    } else {
+                        averageCarbonMore += item.carbon;
+                        averageNitrogenMore += item.nitrogen;
+                        contMore++;
+                    }
+                }
+            }
+        )
+
+        const C1 = averageCarbonLess / contLess;
+        const C2 = averageCarbonMore / contMore;
+
+        const N1 = averageNitrogenLess / contLess;
+        const N2 = averageNitrogenMore / contMore;
+
+        const partialWeightLess = props.wieght * ((C2) - (props.cn*N2)) / ((C2 -C1) + (props.cn*N1) - (props.cn*N2));
+        const partialWeightMore = props.wieght * ((props.cn*N1) - (C1)) & ((C2 -C1) + (props.cn*N1) - (props.cn*N2));
+
+        const minorDryLess = Math.round();Math.round(((partialWeightLess / contLess) + Number.EPSILON) * 100) / 100
+        const minorDryMore = Math.round();Math.round(((partialWeightMore / contMore) + Number.EPSILON) * 100) / 100
+
+        console.log()
+
+    })
+    }
+
+    useEffect(() => {
+        calculate();
+    }, []);
+
     return (
         <View style={styles.container}>
             <View>
@@ -182,7 +229,7 @@ const Main = ({
     const content = [
         <General navigation={navigation} wieght={wieght} setWieght={setWieght} cn={cn} setCn={setCn} />,
         <Ingredients ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} />,
-        <Result />,
+        <Result ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} wieght={wieght}/>,
     ];
 
     return (
