@@ -25,7 +25,7 @@ const Agronomic = () => {
           La agronomia es la ciencia que estudia los procesos biologicos y fisicos que ocurren en los suelos y en las plantas.
         </Text>
         <Button
-          color="#53A06E"
+          color="#F09E54"
           title="Leer más"
         />
       </Card>

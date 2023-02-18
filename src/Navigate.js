@@ -16,6 +16,7 @@ import Change from './screens/Authenticate/Recovery/Change';
 import General from './screens/Authenticate/Register/General';
 import QuestionRegister from './screens/Authenticate/Register/Question';
 import Login from './screens/Authenticate/Login';
+import Show from './screens/Record/Show';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,7 @@ const Navigate = () => {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login" screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: '#53A06E',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -34,13 +35,14 @@ const Navigate = () => {
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 <Stack.Group>
                     <Stack.Screen name="Calculator" component={Calculator} options={{ headerShown: false }} />
-                    <Stack.Screen name="Record" component={Record} />
+                    <Stack.Screen name="Record" component={Record} options={{ title: 'Historial' }} />
+                    <Stack.Screen name="Show" component={Show} options={{ title: 'Detalles' }} />
                 </Stack.Group>
 
                 <Stack.Group>
-                    <Stack.Screen name="Agronomic" component={Agronomic} />
-                    <Stack.Screen name="Operation" component={Operation} />
-                    <Stack.Screen name="Premium" component={Premium} />
+                    <Stack.Screen name="Agronomic" component={Agronomic} options={{ title: 'Agronomia' }}/>
+                    <Stack.Screen name="Operation" component={Operation} options={{ title: 'Operacion' }}/>
+                    <Stack.Screen name="Premium" component={Premium} options={{ title: 'Plan Premium' }} />
                 </Stack.Group>
 
                 <Stack.Group>

@@ -26,7 +26,7 @@ const Operation = () => {
           C:N Calculator permite mezclar los ingredientes que selecciones para elaborar compost y otros abonos orgánicos. La aplicacion estimará las cantidades de cada ingrediente  para obtener una mezcla.
         </Text>
         <Button
-          color="#53A06E"
+          color="#F09E54"
           title="Leer más"
         />
       </Card>

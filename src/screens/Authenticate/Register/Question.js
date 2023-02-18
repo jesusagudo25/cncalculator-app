@@ -1,15 +1,62 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Button } from '@rneui/themed'
-const Question = () => {
+import { Button, Image } from '@rneui/themed'
+import axios from 'axios'
+import { config } from '../../../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-  const [questions, setQuestions] = useState([])
-  const [answers, setAnswers] = useState([])
+const Question = ({
+  navigation,
+  route
+}) => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [questionsRandom, setQuestionsRandom] = useState([])
+
+  useEffect(() => {
+    getQuestions()
+  }, []);
+
+  const getQuestions = async () => {
+    try {
+      const response = await axios.get(`${config.API_URL}/questions`)
+      const questionsRandom = response.data.sort(() => Math.random() - 0.5).slice(0, 2)
+      setQuestionsRandom(questionsRandom)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleRegister = async () => {
+    try {
+      const { name, email, password } = route.params
+      const response = await axios.post(`${config.API_URL}/register`, {
+        name,
+        email,
+        password,
+        questionsRandom: questionsRandom.map(question => {
+          return {
+            question_id: question.id,
+            answer: question.answer
+          }
+        })
+      })
+
+      await AsyncStorage.setItem('token', response.data.token)
+      await AsyncStorage.setItem('id', JSON.stringify(response.data.user))
+
+      navigation.navigate('Home');
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <View style={styles.container}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <Image source={require('../../../../assets/images/register.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
+      </View>
       <Text style={styles.textPrimary}>Preguntas de seguridad</Text>
       <Text style={styles.textSecundary}>Las preguntas de seguridad son una forma de recuperar tu cuenta en caso de que olvides tu contraseña.</Text>
 
@@ -21,8 +68,17 @@ const Question = () => {
           marginBottom: 14,
           color: "#43484d"
         }}
-      >¿Cuál es tu color favorito?</Text>
-      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta' />
+      >
+        {questionsRandom[0] && questionsRandom[0].title}
+      </Text>
+      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
+        onChangeText={text => setQuestionsRandom(questionsRandom.map((question, index) => {
+          if (index === 0) {
+            return { ...question, answer: text }
+          }
+          return question
+        }))}
+      />
 
       <Text
         style={{
@@ -32,9 +88,19 @@ const Question = () => {
           marginBottom: 14,
           color: "#43484d"
         }}
-      >¿Cuál es tu comida favorita?</Text>
-      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta' />
-
+      >
+        {questionsRandom[1] && questionsRandom[1].title}
+      </Text>
+      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
+        onChangeText={
+          text => setQuestionsRandom(questionsRandom.map((question, index) => {
+            if (index === 1) {
+              return { ...question, answer: text }
+            }
+            return question
+          }))
+        }
+      />
 
       <Button
         title='Registrarse'
@@ -50,6 +116,7 @@ const Question = () => {
           paddingHorizontal: 15,
           paddingVertical: 10
         }}
+        onPress={handleRegister}
       />
 
 
@@ -61,68 +128,68 @@ export default Question
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      justifyContent: "center",
-      padding: 30,
-      backgroundColor: "white"
+    flex: 1,
+    justifyContent: "center",
+    padding: 30,
+    backgroundColor: "white"
   },
   textPrimary: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginBottom: 10,
-      color: "#43484d"
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    color: "#43484d"
   },
   textSecundary: {
-      fontSize: 14,
-      fontWeight: "400",
-      textAlign: "center",
-      color: "gray",
-      marginBottom: 20
+    fontSize: 14,
+    fontWeight: "400",
+    textAlign: "center",
+    color: "gray",
+    marginBottom: 20
   },
   inputText: {
-      borderWidth: 1,
-      borderRadius: 5,
-      borderColor: "#D9D9D9",
-      padding: 8,
-      marginBottom: 15
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#D9D9D9",
+    padding: 8,
+    marginBottom: 15
   },
   button: {
-      backgroundColor: "#000",
-      padding: 10,
-      margin: 10
+    backgroundColor: "#000",
+    padding: 10,
+    margin: 10
   },
   buttonText: {
-      color: "#fff"
+    color: "#fff"
   },
   input: {
-      borderWidth: 1,
-      borderColor: "#000",
-      padding: 10,
-      margin: 10
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 10,
+    margin: 10
   },
   inputDisabled: {
-      borderWidth: 1,
-      borderColor: "#000",
-      padding: 10,
-      margin: 10,
-      backgroundColor: "#eee"
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 10,
+    margin: 10,
+    backgroundColor: "#eee"
   },
   checkboxContainer: {
-      margin: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   checkbox: {
-      margin: 8
+    margin: 8
   },
   paragraph: {
-      margin: 10,
-      fontSize: 15
+    margin: 10,
+    fontSize: 15
   },
   textFooter: {
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "auto"
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "auto"
   }
 });

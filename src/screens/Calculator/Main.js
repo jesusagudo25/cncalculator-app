@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import Stepper from 'react-native-stepper-ui';
-import { ListItem } from '@rneui/themed';
+import { ListItem, Image } from '@rneui/themed';
 import { config } from '../../config';
 import axios from 'axios';
+import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const loading = () => {
     //Se utiliza para mostrar loading mientras se hace la peticion.
@@ -17,10 +19,26 @@ const loading = () => {
 const General = (props) => {
     return (
         <View style={styles.container}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Image source={require('../../../assets/images/calculator.png')} style={{ width: 160, height: 160, alignSelf: "center" }} />
+            </View>
             <Text style={styles.textPrimary}>General </Text>
             <Text style={styles.textSecundary}>Ingresa los campos requeridos</Text>
 
-            <TextInput style={styles.inputText} placeholder='Ingresa la cantidad de libras' onChangeText={props.setWieght} value={props.wieght} keyboardType='numeric' />
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'left', marginBottom: 5 }}>Unidad de medida</Text>
+                <Picker
+                    selectedValue={props.unit}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue, itemIndex) => props.setUnit(itemValue)}
+                >
+                    <Picker.Item label="Libras" value="lb" />
+                    <Picker.Item label="Kilogramos" value="kg" />
+                </Picker>
+            </View>
+
+            <TextInput style={styles.inputText} placeholder='Ingresa el peso' onChangeText={props.setWeight} value={props.weight} keyboardType='numeric' />
+
             <TextInput style={styles.inputText} placeholder='Ingresa el valor de C:N' onChangeText={props.setCn} value={props.cn} keyboardType='number-pad' />
 
             <TouchableOpacity
@@ -50,6 +68,7 @@ const Ingredients = (props) => {
             })
         );
         setIsLoading(false);
+        console.log(response.data);
     }
 
     useEffect(() => {
@@ -58,7 +77,7 @@ const Ingredients = (props) => {
 
     const handleCheck = (id) => {
         const index = props.ingredients.findIndex((ingredient) => ingredient.id === id);
-        const newIngredientsSelected = [...props.ingredientsSelected];  
+        const newIngredientsSelected = [...props.ingredientsSelected];
         newIngredientsSelected[index].checked = !newIngredientsSelected[index].checked;
         props.setIngredientsSelected(newIngredientsSelected);
         console.log(newIngredientsSelected);
@@ -143,7 +162,12 @@ const Ingredients = (props) => {
 
 const Result = (props) => {
 
-    const calculate = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [result, setResult] = useState([]);
+
+    const calculate = async () => {
+        setIsLoading(true);
+
         let averageCarbonLess = 0;
         let averageCarbonMore = 0;
         let averageNitrogenLess = 0;
@@ -166,7 +190,8 @@ const Result = (props) => {
                     }
                 }
             }
-        )
+            );
+        })
 
         const C1 = averageCarbonLess / contLess;
         const C2 = averageCarbonMore / contMore;
@@ -174,16 +199,53 @@ const Result = (props) => {
         const N1 = averageNitrogenLess / contLess;
         const N2 = averageNitrogenMore / contMore;
 
-        const partialWeightLess = props.wieght * ((C2) - (props.cn*N2)) / ((C2 -C1) + (props.cn*N1) - (props.cn*N2));
-        const partialWeightMore = props.wieght * ((props.cn*N1) - (C1)) & ((C2 -C1) + (props.cn*N1) - (props.cn*N2));
+        const partialWeightLess = props.weight * ((C2) - (props.cn * N2)) / ((C2 - C1) + (props.cn * N1) - (props.cn * N2));
+        const partialWeightMore = props.weight * ((props.cn * N1) - (C1)) / ((C2 - C1) + (props.cn * N1) - (props.cn * N2));
 
-        const minorDryLess = Math.round();Math.round(((partialWeightLess / contLess) + Number.EPSILON) * 100) / 100
-        const minorDryMore = Math.round();Math.round(((partialWeightMore / contMore) + Number.EPSILON) * 100) / 100
+        const minorDryLess = Math.round(((partialWeightLess / contLess) + Number.EPSILON) * 100) / 100
+        const minorDryMore = Math.round(((partialWeightMore / contMore) + Number.EPSILON) * 100) / 100
 
-        console.log()
+        props.ingredients.map((item, index) => {
+            props.ingredientsSelected.map((itemSelected, indexSelected) => {
+                if (item.id === itemSelected.id && itemSelected.checked) {
+                    if (item.carbon_nitrogen <= props.cn) {
+                        result.push({
+                            ingredient_id: item.id,
+                            name: item.name,
+                            amount: minorDryLess,
+                        })
+                    } else {
+                        result.push({
+                            ingredient_id: item.id,
+                            name: item.name,
+                            amount: minorDryMore,
+                        })
+                    }
+                }
+            }
+            );
+        }
+        );
 
-    })
-    }
+        const id = JSON.parse(await AsyncStorage.getItem('id'));
+        const response = await axios.post(`${config.API_URL}/records`, {
+            result: result.map((item, index) => {
+                return {
+                    ingredient_id: item.ingredient_id,
+                    amount: item.amount,
+                }
+            }),
+            user_id: id,
+            weight: props.weight,
+            cn: props.cn,
+            unit: props.unit,
+        });
+
+        if (response.status === 200) {
+            setIsLoading(false);
+        }
+
+    };
 
     useEffect(() => {
         calculate();
@@ -191,6 +253,9 @@ const Result = (props) => {
 
     return (
         <View style={styles.container}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Image source={require('../../../assets/images/environment.png')} style={{ width: 150, height: 150, alignSelf: "center" }} />
+            </View>
             <View>
                 <Text style={styles.textPrimary}>Resultado</Text>
                 <Text style={styles.textSecundary}>Tomando en cuenta los parametros ingresados, se proporcionan los siguientes resultados</Text>
@@ -202,34 +267,39 @@ const Result = (props) => {
                     <Text style={stylesTable.headerRight}>Cantidad</Text>
 
                 </View>
-                <View style={stylesTable.itemsContainer}>
-                    <Text style={stylesTable.itemLeft}>Hortalizas</Text>
-                    <Text style={stylesTable.itemRight}>29.43</Text>
-                </View>
-                <View style={stylesTable.itemsContainer}>
-                    <Text style={stylesTable.itemLeft}>Ovinos</Text>
-                    <Text style={stylesTable.itemRight}>82.76</Text>
-                </View>
+                {
+                    isLoading ? loading() : (
+                        result.map((item, index) => {
+                            return (
+                                <View style={stylesTable.itemsContainer} key={index}>
+                                    <Text style={stylesTable.itemLeft}>{item.name}</Text>
+                                    <Text style={stylesTable.itemRight}>{item.amount} {props.unit}</Text>
+                                </View>
+                            )
+                        })
+                    )
+                }
             </View>
 
         </View>
     );
-};
+}
 
 const Main = ({
     navigation,
 }) => {
 
-    const [wieght, setWieght] = useState('')
+    const [weight, setWeight] = useState('')
+    const [unit, setUnit] = useState('lb')
     const [cn, setCn] = useState('')
     const [ingredientsSelected, setIngredientsSelected] = useState([])
     const [ingredients, setIngredients] = useState([]);
     const [active, setActive] = useState(0);
 
     const content = [
-        <General navigation={navigation} wieght={wieght} setWieght={setWieght} cn={cn} setCn={setCn} />,
+        <General navigation={navigation} weight={weight} setWeight={setWeight} cn={cn} setCn={setCn} unit={unit} setUnit={setUnit} />,
         <Ingredients ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} />,
-        <Result ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} wieght={wieght}/>,
+        <Result ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} weight={weight} unit={unit} />,
     ];
 
     return (
@@ -243,7 +313,7 @@ const Main = ({
                     content={content}
                     onNext={() => setActive((p) => p + 1)}
                     onBack={() => setActive((p) => p - 1)}
-                    onFinish={() => Alert.alert("Finish")}
+                    onFinish={() => navigation.navigate("Home")}
                     stepStyle={{ backgroundColor: "#F09E54" }}
                     buttonStyle={{ backgroundColor: "#53A06E" }}
                 />

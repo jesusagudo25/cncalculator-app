@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import { Button } from '@rneui/themed'
+import { Button, Image } from '@rneui/themed'
+import axios from 'axios'
+import { config } from '../../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({
     navigation
@@ -11,8 +14,31 @@ const Login = ({
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(`${config.API_URL}/login`, {
+                email,
+                password
+            })
+            console.log(response.data);
+            await AsyncStorage.setItem('token', response.data.token)
+            await AsyncStorage.setItem('id', JSON.stringify(response.data.user))
+            navigation.navigate('Home');
+            setEmail('')
+            setPassword('')
+        } catch (error) {
+            console.log(error);
+            alert('Usuario o contraseña incorrectos')
+        }
+    }
+
+
     return (
         <View style={styles.container}>
+            <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
+                <Image source={require('../../../assets/images/Rafa1.png')} style={{ width: 100, height: 100, alignSelf: "center", marginBottom: 20 }} />
+            </View>
+
             <Text style={styles.textPrimary}>Inicio de sesión</Text>
             <Text style={styles.textSecundary}>La mano derecha del agricultor; C:N Calculator</Text>
 
@@ -33,7 +59,7 @@ const Login = ({
                     paddingHorizontal: 15,
                     paddingVertical: 10
                 }}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => handleLogin()}
             />
 
             <TouchableOpacity
@@ -45,7 +71,6 @@ const Login = ({
 
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => navigation.navigate('Email')}
             >
                 <Text style={{ textAlign: "center", fontSize: 14, color: "#43484d" }}>¿Olvidaste tu contraseña?</Text>
             </TouchableOpacity>

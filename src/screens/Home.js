@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
 import { Header, ListItem, Card, Icon, Divider, BottomSheet, Text, Image } from '@rneui/themed';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { config } from '../config';
 
 const Home = ({ navigation }) => {
 
   const [isVisible, setIsVisible] = useState(false);
+  const [name, setName] = useState('Cargando...');
 
   const list = [
-    { title: 'Funcionamiento',
-      onPress: () => setIsVisible(false),
+    {
+      title: 'Funcionamiento',
+      onPress: () => navigation.navigate('Operation'),
     },
-    { title: 'Aspectos agronómicos',
-      onPress: () => setIsVisible(false),
+    {
+      title: 'Aspectos agronómicos',
+      onPress: () => navigation.navigate('Agronomic'),
     },
-    { title: 'Contactar a un asesor',
+    {
+      title: 'Contactar a un asesor',
       onPress: () => setIsVisible(false),
     },
     {
       title: 'Cerrar',
-      containerStyle: { backgroundColor: '#53A06E' },
+      containerStyle: { backgroundColor: '#F09E54' },
       titleStyle: { color: 'white' },
       onPress: () => setIsVisible(false),
     },
@@ -30,13 +36,40 @@ const Home = ({ navigation }) => {
 
   const premium = { uri: "https://revistapesquisa.fapesp.br/wp-content/uploads/2019/09/038-040_Rel.-agricultura_271-1200px-1-1.png" };
 
+  const logout = async () => {
+    try {
+      await axios.post(`${config.API_URL}/logout`);
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('id');
+      navigation.navigate('Login');
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getName = async () => {
+    try {
+      const id = JSON.parse(await AsyncStorage.getItem('id'));
+      const response = await axios.get(`${config.API_URL}/users/${id}`);
+      setName(`¡Hola, ${response.data.name}!`);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getName();
+  }, []);
+
   return (
     <View>
       <Header
         backgroundColor="#53A06E"
         barStyle="default"
         centerComponent={{
-          text: "¡Hola, Katherine!",
+          text: name,
           style: { color: "#fff", fontSize: 16 }
         }}
         centerContainerStyle={{}}
@@ -50,7 +83,9 @@ const Home = ({ navigation }) => {
         linearGradientProps={{}}
         placement="center"
         rightComponent={
-          <TouchableOpacity >
+          <TouchableOpacity
+            onPress={() => logout()}
+          >
             <Icon name="logout" color="white" />
           </TouchableOpacity>
         }
@@ -121,7 +156,7 @@ const Home = ({ navigation }) => {
           style={styles.buttonRequest}
           activeOpacity={0.5}
           onPress={() => {
-            navigation.navigate('RequestAppoinment');
+            navigation.navigate('Premium');
           }}
         >
           <View

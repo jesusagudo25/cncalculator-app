@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Button, CheckBox } from '@rneui/themed'
+import { Button, CheckBox, Image } from '@rneui/themed'
 const General = ({
     navigation
 }) => {
@@ -14,12 +14,16 @@ const General = ({
 
     return (
         <View style={styles.container}>
+            <View style={{ justifyContent: "center", alignItems: "center"}}>
+                <Image source={require('../../../../assets/images/register.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
+            </View>
+
             <Text style={styles.textPrimary}>Registro de usuario</Text>
             <Text style={styles.textSecundary}>La mano derecha del agricultor; C:N Calculator</Text>
 
             <TextInput style={styles.inputText} placeholder='Ingresa tu nombre' onChangeText={setName} value={name} />
             <TextInput style={styles.inputText} placeholder='Ingresa tu correo electrónico' onChangeText={setEmail} value={email} />
-            <TextInput style={styles.inputText} placeholder='Ingresa tu contraseña' onChangeText={setPassword} value={password} />
+            <TextInput style={styles.inputText} placeholder='Ingresa tu contraseña' onChangeText={setPassword} value={password} secureTextEntry={true} />
 
             <CheckBox
                 title='¿Has verificado los datos ingresados?'
@@ -44,7 +48,7 @@ const General = ({
                     paddingHorizontal: 15,
                     paddingVertical: 10
                 }}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate('QuestionRegister', { name, email, password })}
             />
 
             <TouchableOpacity
