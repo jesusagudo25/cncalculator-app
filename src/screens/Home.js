@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
-import { Header, ListItem, Card, Icon, Divider, BottomSheet, Text, Image } from '@rneui/themed';
+import { View, StyleSheet, Linking, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
+import { Header, ListItem, Card, Icon, Divider, BottomSheet, Text, Image, Dialog } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { config } from '../config';
@@ -9,6 +9,7 @@ const Home = ({ navigation }) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [name, setName] = useState('Cargando...');
+  const [showDialog, setShowDialog] = useState(false);
 
   const list = [
     {
@@ -21,7 +22,16 @@ const Home = ({ navigation }) => {
     },
     {
       title: 'Contactar a un asesor',
-      onPress: () => setIsVisible(false),
+      onPress: () => {
+        const url = `whatsapp://send?phone=${config.WHATSAPP_NUMBER}`;
+
+        Linking.openURL(url)
+          .then(() => {
+            console.log('Whatsapp Opened');
+          }).catch(err => {
+            setShowDialog(true);
+          });
+      }
     },
     {
       title: 'Cerrar',
@@ -106,6 +116,14 @@ const Home = ({ navigation }) => {
           </ListItem>
         ))}
       </BottomSheet>
+
+      <Dialog
+        isVisible={showDialog}
+        onBackdropPress={() => setShowDialog(false)}
+      >
+        <Dialog.Title title="Error" />
+        <Text>Por favor, instala Whatsapp en tu dispositivo para poder enviar un mensaje.</Text>
+      </Dialog>
 
       <Card
         containerStyle={{

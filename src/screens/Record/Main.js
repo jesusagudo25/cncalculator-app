@@ -83,7 +83,7 @@ const Main = ({ navigation }) => {
                                 <ListItem.Content>
                                   <ListItem.Title style={{ color: 'white', fontWeight: 'bold' }}>
                                     {/* Por corregir unidad */}
-                                    Preparacion: {item.weight} lb - {item.cn} cn
+                                    Preparacion: {item.weight} {item.unit} - {item.cn} cn
                                   </ListItem.Title>
                                   <ListItem.Subtitle style={{ color: 'white' }}>
                                     {

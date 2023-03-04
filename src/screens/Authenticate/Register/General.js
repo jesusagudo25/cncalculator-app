@@ -1,6 +1,9 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { Button, CheckBox, Image } from '@rneui/themed'
+import React, { useState } from 'react'
+import { Button, CheckBox, Image, Dialog } from '@rneui/themed'
+import axios from 'axios'
+import { config } from '../../../config';
+
 const General = ({
     navigation
 }) => {
@@ -8,14 +11,15 @@ const General = ({
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [checked, setChecked] = useState(false);
+    const [showDialog, setShowDialog] = useState(false);
+    const [message, setMessage] = useState('');
 
     return (
         <View style={styles.container}>
-            <View style={{ justifyContent: "center", alignItems: "center"}}>
-                <Image source={require('../../../../assets/images/register.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Image source={require('../../../../assets/images/register.png')} style={{ width: 250, height: 190, alignSelf: "center" }} />
             </View>
 
             <Text style={styles.textPrimary}>Registro de usuario</Text>
@@ -34,6 +38,14 @@ const General = ({
                 containerStyle={{ margin: 0, padding: 0, textAlign: "left", justifyContent: "flex-start", alignItems: "flex-start" }}
             />
 
+            <Dialog
+                isVisible={showDialog}
+                onBackdropPress={() => setShowDialog(false)}
+            >
+                <Dialog.Title title="Error" />
+                <Text>{message}</Text>
+            </Dialog>
+
             <Button
                 title='Siguiente'
                 containerStyle={{
@@ -48,7 +60,42 @@ const General = ({
                     paddingHorizontal: 15,
                     paddingVertical: 10
                 }}
-                onPress={() => navigation.navigate('QuestionRegister', { name, email, password })}
+                onPress={async () => {
+                    setLoading(true)
+                    if (name === '' || email === '' || password === '') {
+                        setMessage('Por favor, ingresa todos los datos.');
+                        setShowDialog(true);
+                        setLoading(false)
+                        return;
+                    }
+                    else if (!checked) {
+                        setMessage('Por favor, verifica los datos ingresados.');
+                        setShowDialog(true);
+                        setLoading(false)
+                        return;
+                    }
+
+                    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+                    if (emailRegex.test(email) === false) {
+                        setMessage('Por favor, ingresa un correo electrónico válido.');
+                        setShowDialog(true);
+                        setLoading(false)
+                        return;
+                    }
+
+                    const emailUnique = await axios.get(`${config.API_URL}/users/validate/${email}`)
+                    if (emailUnique.data.exists) {
+                        setMessage('El correo electrónico ingresado ya se encuentra registrado.');
+                        setShowDialog(true);
+                        setLoading(false)
+                        return;
+                    }
+                    setLoading(false)
+
+                    navigation.navigate('QuestionRegister', { name, email, password })
+                }}
+                loading={loading}
             />
 
             <TouchableOpacity

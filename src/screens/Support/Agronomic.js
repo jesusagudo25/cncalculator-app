@@ -1,7 +1,7 @@
 import { View, Text, Button, StyleSheet } from "react-native";
-import { Video, AVPlaybackStatus } from 'expo-av';
-import React, { Component } from 'react';
-import { Header, ListItem, Avatar, Card, Icon, Divider } from '@rneui/themed';
+import { Video } from 'expo-av';
+import React from 'react';
+import {  Card } from '@rneui/themed';
 const Agronomic = () => {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});

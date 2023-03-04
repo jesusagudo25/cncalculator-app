@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Button, Image } from '@rneui/themed'
+import { Button, Image, Dialog } from '@rneui/themed'
 import axios from 'axios'
 import { config } from '../../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,9 +9,9 @@ const Question = ({
   navigation,
   route
 }) => {
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [questionsRandom, setQuestionsRandom] = useState([])
+  const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
     getQuestions()
@@ -27,9 +27,19 @@ const Question = ({
     }
   }
 
-  handleRegister = async () => {
+  const handleRegister = async () => {
     try {
+      setLoading(true)
       const { name, email, password } = route.params
+
+      console.log(questionsRandom);
+
+      if (questionsRandom[0].answer === '' || questionsRandom[1].answer === '' || questionsRandom[0]?.answer === undefined || questionsRandom[1]?.answer === undefined) {
+        setShowDialog(true)
+        setLoading(false)
+        return
+      }
+
       const response = await axios.post(`${config.API_URL}/register`, {
         name,
         email,
@@ -44,6 +54,7 @@ const Question = ({
 
       await AsyncStorage.setItem('token', response.data.token)
       await AsyncStorage.setItem('id', JSON.stringify(response.data.user))
+      setLoading(false)
 
       navigation.navigate('Home');
 
@@ -55,7 +66,7 @@ const Question = ({
   return (
     <View style={styles.container}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Image source={require('../../../../assets/images/register.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
+        <Image source={require('../../../../assets/images/questions.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
       </View>
       <Text style={styles.textPrimary}>Preguntas de seguridad</Text>
       <Text style={styles.textSecundary}>Las preguntas de seguridad son una forma de recuperar tu cuenta en caso de que olvides tu contraseña.</Text>
@@ -102,6 +113,14 @@ const Question = ({
         }
       />
 
+      <Dialog
+        isVisible={showDialog}
+        onBackdropPress={() => setShowDialog(false)}
+      >
+        <Dialog.Title title="Error" />
+        <Text>Por favor, ingresa las respuestas a las preguntas de seguridad.</Text>
+      </Dialog>
+
       <Button
         title='Registrarse'
         containerStyle={{
@@ -117,6 +136,7 @@ const Question = ({
           paddingVertical: 10
         }}
         onPress={handleRegister}
+        loading={loading}
       />
 
 

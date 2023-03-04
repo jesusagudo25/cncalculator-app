@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import { Button, Image } from '@rneui/themed'
+import { Button, Image, Dialog } from '@rneui/themed'
 import axios from 'axios'
 import { config } from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,11 +11,20 @@ const Login = ({
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-
+    const [showDialog, setShowDialog] = useState(false);
+    const [message, setMessage] = useState('');
+    
     const handleLogin = async () => {
         try {
+            setLoading(true)
+            if (email === '' || password === '') {
+                setLoading(false)
+                setMessage('Por favor, ingresa todos los datos.');
+                setShowDialog(true)
+                return
+            }
+
             const response = await axios.post(`${config.API_URL}/login`, {
                 email,
                 password
@@ -26,11 +35,25 @@ const Login = ({
             navigation.navigate('Home');
             setEmail('')
             setPassword('')
+            setLoading(false)
         } catch (error) {
             console.log(error);
-            alert('Usuario o contraseña incorrectos')
+            setMessage('Por favor, verifica tus credenciales.'); 
+            setShowDialog(true)
+            setLoading(false)
         }
     }
+
+    useEffect(() => {
+        console.log('useEffect');
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem('token');
+            if (token) {
+                navigation.navigate('Home');
+            }
+        }
+        checkToken();
+    }, [])
 
 
     return (
@@ -43,7 +66,15 @@ const Login = ({
             <Text style={styles.textSecundary}>La mano derecha del agricultor; C:N Calculator</Text>
 
             <TextInput style={styles.inputText} placeholder='Ingresa tu correo electrónico' onChangeText={setEmail} value={email} />
-            <TextInput style={styles.inputText} placeholder='Ingresa tu contraseña' onChangeText={setPassword} value={password} />
+            <TextInput style={styles.inputText} placeholder='Ingresa tu contraseña' onChangeText={setPassword} value={password} secureTextEntry={true} />
+
+            <Dialog
+                isVisible={showDialog}
+                onBackdropPress={() => setShowDialog(false)}
+            >
+                <Dialog.Title title="Error" />
+                <Text>{message}</Text>
+            </Dialog>
 
             <Button
                 title='Iniciar sesión'
@@ -60,6 +91,7 @@ const Login = ({
                     paddingVertical: 10
                 }}
                 onPress={() => handleLogin()}
+                loading={loading}
             />
 
             <TouchableOpacity

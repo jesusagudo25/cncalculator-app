@@ -2,8 +2,6 @@ import { StyleSheet, Text, View, FlatList, Button } from 'react-native'
 import React from 'react'
 import { Card, Image} from '@rneui/themed';
 
-const premium = { uri: "https://revistapesquisa.fapesp.br/wp-content/uploads/2019/09/038-040_Rel.-agricultura_271-1200px-1-1.png" };
-
 const Premium = () => {
   return (
     <View style={styles.container}>
@@ -11,7 +9,7 @@ const Premium = () => {
         <Card.Title>Opciones Premium</Card.Title>
         <Card.Divider />
         <View style={{ alignItems: 'center', marginBottom: 10 }}>
-        <Image source={premium} style={{ width: 80, height: 80, alignSelf: 'center',
+        <Image source={require('../../../assets/images/buy.png')} style={{ width: 200, height: 150, alignSelf: 'center',
        }} />
         </View>
         <Text style={{ marginBottom: 10, lineHeight: 20 }}>
@@ -19,11 +17,11 @@ const Premium = () => {
         </Text>
         <FlatList
           data={[
-            { key: 'Grupo en Whatsapp.' },
+            { key: 'Grupo de expertos.' },
             { key: 'Soporte 24/7.' },
-            { key: 'Aplicacion web.' },
+            { key: 'Aplicación web.' },
             { key: 'Multiples correos' },
-            { key: 'Gestion de ingredientes' },
+            { key: 'Gestión de ingredientes.' },
           ]}
           renderItem={({ item }) => <Text style={styles.item}>{'\u2B24' + '  '}<Text style={styles.key}>{item.key}</Text></Text>}
           style={{ marginBottom: 10 }}

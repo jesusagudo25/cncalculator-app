@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import Stepper from 'react-native-stepper-ui';
-import { ListItem, Image } from '@rneui/themed';
+import Stepper from 'react-native-stepper-ui-jm';
+import { ListItem, Image, Dialog } from '@rneui/themed';
 import { config } from '../../config';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -30,7 +30,10 @@ const General = (props) => {
                 <Picker
                     selectedValue={props.unit}
                     style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => props.setUnit(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => {
+                        props.setUnit(itemValue)
+                        props.setWeight('')
+                    }}
                 >
                     <Picker.Item label="Libras" value="lb" />
                     <Picker.Item label="Kilogramos" value="kg" />
@@ -43,7 +46,7 @@ const General = (props) => {
 
             <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => props.navigation.navigate('Home')}
+                onPress={() => props.navigation.navigate('Operation')}
             >
                 <Text style={{ textAlign: "center", fontSize: 14, color: "#43484d", marginTop: 10 }}>¿Has revisado el centro de ayuda?</Text>
             </TouchableOpacity>
@@ -64,6 +67,7 @@ const Ingredients = (props) => {
                 return {
                     checked: false,
                     id: item.id,
+                    cn: item.carbon_nitrogen
                 }
             })
         );
@@ -82,7 +86,6 @@ const Ingredients = (props) => {
         props.setIngredientsSelected(newIngredientsSelected);
         console.log(newIngredientsSelected);
     }
-
 
     return (
         <View style={styles.container}>
@@ -309,6 +312,15 @@ const Main = ({
             <View style={{ marginVertical: 40, marginHorizontal: 20 }}>
                 {/* General data - Stepper on top */}
                 <Stepper
+                    data={
+                        {
+                            weight: weight,
+                            unit: unit,
+                            cn: cn,
+                            ingredientsSelected: ingredientsSelected,
+                        }
+                    }
+                    dialogComponent={Dialog}
                     active={active}
                     content={content}
                     onNext={() => setActive((p) => p + 1)}

@@ -1,1 +1,4 @@
-export const config = { API_URL: 'http://10.0.2.2:8000/api' };
+export const config = { 
+    API_URL: 'https://cncalculator-cloud-production.up.railway.app/api',
+    WHATSAPP_NUMBER: '50768101747'
+};

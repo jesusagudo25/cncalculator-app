@@ -40,8 +40,8 @@ const Navigate = () => {
                 </Stack.Group>
 
                 <Stack.Group>
-                    <Stack.Screen name="Agronomic" component={Agronomic} options={{ title: 'Agronomia' }}/>
-                    <Stack.Screen name="Operation" component={Operation} options={{ title: 'Operacion' }}/>
+                    <Stack.Screen name="Agronomic" component={Agronomic} options={{ title: 'agronomía' }}/>
+                    <Stack.Screen name="Operation" component={Operation} options={{ title: 'Operación' }}/>
                     <Stack.Screen name="Premium" component={Premium} options={{ title: 'Plan Premium' }} />
                 </Stack.Group>
 
