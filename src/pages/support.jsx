@@ -65,7 +65,7 @@ const Page = () => {
     <>
       <Helmet>
         <title>
-          Settings | Carpatin Free
+          Soporte | C:N Calculator
         </title>
       </Helmet>
       <Box

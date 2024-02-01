@@ -2,7 +2,7 @@ import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { items } from './config';
 
-const SIDE_NAV_WIDTH = 73;
+const SIDE_NAV_WIDTH = 75;
 const TOP_NAV_HEIGHT = 64;
 
 export const SideNav = () => {

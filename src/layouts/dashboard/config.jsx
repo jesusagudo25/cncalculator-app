@@ -1,4 +1,6 @@
 import ChartPieIcon from "@heroicons/react/24/solid/ChartPieIcon"
+import CalculatorIcon from "@heroicons/react/24/solid/CalculatorIcon"
+import HomeIcon from "@heroicons/react/24/solid/HomeIcon"
 import CogIcon from "@heroicons/react/24/solid/CogIcon"
 import DocumentTextIcon from "@heroicons/react/24/solid/DocumentTextIcon"
 import ExclamationTriangleIcon from "@heroicons/react/24/solid/ExclamationTriangleIcon"
@@ -11,54 +13,45 @@ export const items = [
     href: '/',
     icon: (
       <SvgIcon>
-        <ChartPieIcon />
+        <HomeIcon />
       </SvgIcon>
     ),
-    label: 'Home'
+    label: 'Inicio'
   },
   {
-    href: '/orders',
+    href: '/calculator',
     icon: (
       <SvgIcon>
-        <ShoppingCartIcon />
+        <CalculatorIcon />
       </SvgIcon>
     ),
-    label: 'Orders'
+    label: 'Calculadora'
   },
   {
-    href: '/settings',
+    href: '/support',
     icon: (
       <SvgIcon>
         <CogIcon />
       </SvgIcon>
     ),
-    label: 'Settings'
+    label: 'Soporte'
   },
   {
-    href: '/theme',
+    href: '/blog',
     icon: (
       <SvgIcon>
         <DocumentTextIcon />
       </SvgIcon>
     ),
-    label: 'Theme'
+    label: 'Blog'
   },
   {
-    href: '/icons',
+    href: '/premium',
     icon: (
       <SvgIcon>
         <StarIcon />
       </SvgIcon>
     ),
-    label: 'Icons'
-  },
-  {
-    href: '/404',
-    icon: (
-      <SvgIcon>
-        <ExclamationTriangleIcon />
-      </SvgIcon>
-    ),
-    label: 'Error'
+    label: 'Premium'
   }
 ];

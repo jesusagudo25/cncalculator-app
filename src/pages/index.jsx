@@ -16,13 +16,11 @@ import { OverviewKpi } from 'src/sections/overview/overview-kpi';
 import { OverviewLatestCustomers } from 'src/sections/overview/overview-latest-customers';
 import { OverviewSummary } from 'src/sections/overview/overview-summary';
 
-const now = new Date();
-
 const Page = () => (
   <>
     <Helmet>
       <title>
-        Overview | Carpatin Free
+        Inicio | C:N Calculator
       </title>
     </Helmet>
     <Box
@@ -35,7 +33,7 @@ const Page = () => (
         <Stack spacing={3}>
           <div>
             <Typography variant="h4">
-              Reports
+              Hola, bienvenido de nuevo
             </Typography>
           </div>
           <div>
@@ -112,7 +110,8 @@ const Page = () => (
                   value='1942'
                 />
               </Grid>
-              <Grid xs={12}>
+
+{/*               <Grid xs={12}>
                 <OverviewKpi
                   chartSeries={[
                     {
@@ -144,6 +143,7 @@ const Page = () => (
                   ]}
                 />
               </Grid>
+
               <Grid xs={12}>
                 <OverviewLatestCustomers
                   customers={[
@@ -194,7 +194,8 @@ const Page = () => (
                     }
                   ]}
                 />
-              </Grid>
+              </Grid> */}
+
             </Grid>
           </div>
         </Stack>

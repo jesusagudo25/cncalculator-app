@@ -6,7 +6,7 @@ const Page = () => (
   <>
     <Helmet>
       <title>
-        Error: Not Found | Carpatin Free
+        Error: No encontrado | C:N Calculator
       </title>
     </Helmet>
     <Box
@@ -39,21 +39,21 @@ const Page = () => (
           sx={{ my: 2 }}
           variant="h3"
         >
-          Nothing here!
+          No encontrado
         </Typography>
         <Typography
           align="center"
           color="text.secondary"
           variant="body2"
         >
-          The page requested does not exist.
+          Lo sentimos, no pudimos encontrar la página que estás buscando.
         </Typography>
         <Button
           to="/"
           component={RouterLink}
           sx={{ mt: 2 }}
         >
-          Take me home
+          Volver al inicio
         </Button>
       </Container>
     </Box>

@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Avatar, Box, Link, Stack } from '@mui/material';
+import { Avatar, Box, Link, Stack, Typography } from '@mui/material';
 import { Logo } from 'src/components/logo';
 
 const TOP_NAV_HEIGHT = 64;
@@ -26,19 +26,25 @@ export const TopNav = () => (
       <Stack
         alignItems="center"
         direction="row"
-        spacing={3}
+        spacing={2}
       >
         <Box
           component={RouterLink}
           to="/"
           sx={{
             display: 'inline-flex',
-            height: 24,
-            width: 24
+            height: 42,
+            width: 42
           }}
         >
           <Logo />
         </Box>
+        <Typography
+          color="inherit"
+          variant="h6"
+        >
+          C:N Calculator
+        </Typography>
       </Stack>
       <Stack
         alignItems="center"
@@ -47,14 +53,14 @@ export const TopNav = () => (
       >
         <Link
           color="inherit"
-          href="https://mui.com/store/items/carpatin-dashboard"
+          href="#"
           target="_blank"
           variant="body2"
         >
-          See Pro Version
+          Obten versión Premium
         </Link>
         <Avatar
-          src="/assets/avatars/avatar-chen-simmons.jpg"
+          src="https://cdn-icons-png.flaticon.com/512/227/227671.png"
           variant="rounded"
         />
       </Stack>

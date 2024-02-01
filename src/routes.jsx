@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { Layout as DashboardLayout } from './layouts/dashboard/layout';
-import IconsPage from './pages/icons';
+import PremiumPage from './pages/premium';
 import NotFoundPage from './pages/404';
-import OrdersPage from './pages/orders';
-import ReportsPage from './pages';
-import SettingsPage from './pages/settings';
-import ThemePage from './pages/theme';
+import CalculatorPage from './pages/calculator';
+import HomePage from './pages';
+import SupportPage from './pages/support';
+
 
 export const routes = [
   {
@@ -17,23 +17,19 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <ReportsPage />
+        element: <HomePage />
       },
       {
-        path: 'orders',
-        element: <OrdersPage />
+        path: 'calculator',
+        element: <CalculatorPage />
       },
       {
-        path: 'settings',
-        element: <SettingsPage />
+        path: 'support',
+        element: <SupportPage />
       },
       {
-        path: 'theme',
-        element: <ThemePage />
-      },
-      {
-        path: 'icons',
-        element: <IconsPage />
+        path: 'premium',
+        element: <PremiumPage />
       }
     ]
   },
