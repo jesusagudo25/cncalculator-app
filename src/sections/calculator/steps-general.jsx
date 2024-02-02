@@ -14,6 +14,7 @@ const steps = ['Datos generales', 'Selección de ingredientes', 'Resultado'];
 export const StepsGeneral = (props) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const [formData, setFormData] = React.useState({});
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -65,9 +66,9 @@ export const StepsGeneral = (props) => {
         <React.Fragment>
           
           {
-            activeStep === 0 ? <GeneralData /> :
-            activeStep === 1 ? <Ingredients /> :
-            activeStep === 2 ? <Results /> : null
+            activeStep === 0 ? <GeneralData formData={formData} setFormData={setFormData} /> :
+            activeStep === 1 ? <Ingredients formData={formData} setFormData={setFormData} /> :
+            activeStep === 2 ? <Results formData={formData} setFormData={setFormData} /> : null
           }
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

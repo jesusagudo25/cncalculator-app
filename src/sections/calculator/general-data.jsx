@@ -2,17 +2,14 @@ import { Helmet } from 'react-helmet-async';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
-  Avatar,
   Box,
-  Button,
   Card,
-  Container,
   FormHelperText,
   MenuItem,
   Stack,
   TextField,
-  Typography,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Button
 } from '@mui/material';
 
 const unitsOptions = ['Libras', 'Kilogramos', 'Gramos', 'Miligramos'];
@@ -36,7 +33,9 @@ const validationSchema = Yup.object({
     .required('Unidades es requerido'),
   weight: Yup
     .number()
-    .required('Peso es requerido'),
+    .required('Peso es requerido')
+    .min(1, 'El valor mínimo es 1')
+    .max(100, 'El valor máximo es 100'),
   cn: Yup
     .number()
     .required('C:N es requerido')
@@ -46,14 +45,21 @@ const validationSchema = Yup.object({
 
 
 export const GeneralData = (props) => {
+
+  //recibir props
+  const { formData, setFormData } = props;
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values, helpers) => {
       helpers.setStatus({ success: true });
       helpers.setSubmitting(false);
+      setFormData(values);
     }
   });
+
+  //submit form
 
   return (
     <div>
@@ -131,6 +137,18 @@ export const GeneralData = (props) => {
                 {formik.errors.submit}
               </FormHelperText>
             )}
+
+            <Box sx={{ mt: 3 }}>
+              <Button
+                color="primary"
+                size="medium"
+                type="submit"
+                variant="contained"
+              >
+                Guardar
+              </Button>
+            </Box>
+
           </Box>
         </form>
       </Card>
