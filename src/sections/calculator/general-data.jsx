@@ -141,7 +141,7 @@ export const GeneralData = (props) => {
             <Box sx={{ mt: 3 }}>
               <Button
                 color="primary"
-                size="medium"
+                size="large"
                 type="submit"
                 variant="contained"
               >
