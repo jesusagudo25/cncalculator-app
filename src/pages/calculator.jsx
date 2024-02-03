@@ -10,7 +10,7 @@ const Page = () => {
     <>
       <Helmet>
         <title>
-          Calculator | C:N Calculator
+          Calculadora | C:N Calculator
         </title>
       </Helmet>
       <Box

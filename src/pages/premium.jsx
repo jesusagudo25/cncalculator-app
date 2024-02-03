@@ -3,6 +3,8 @@ import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
 import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import ShoppingCartIcon from '@heroicons/react/24/solid/ShoppingCartIcon';
+import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
+import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import StarIcon from '@heroicons/react/24/solid/StarIcon';
 import {
   Box,
@@ -12,22 +14,54 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Avatar,
+  Button,
+  Divider
 } from '@mui/material';
 
-const icons = [
-  <CogIcon />,
-  <DocumentTextIcon />,
-  <HomeIcon />,
-  <ShoppingCartIcon />,
-  <StarIcon />
+import { subDays, subHours, subMinutes } from 'date-fns';
+
+import { OverviewFeatures } from 'src/sections/premium/overview-features';
+
+const features = [
+  {
+    icon: CogIcon,
+    name: 'Automation',
+    description: 'Save time and money with our automation tools'
+  },
+  {
+    icon: DocumentTextIcon,
+    name: 'Reports',
+    description: 'Get detailed reports of your sales and performance'
+  },
+  {
+    icon: HomeIcon,
+    name: 'Real-time data',
+    description: 'Get real-time data on your website and sales'
+  },
+  {
+    icon: StarIcon,
+    name: 'Premium support',
+    description: 'Get priority support from our team'
+  },
+  {
+    icon: CurrencyDollarIcon,
+    name: 'Unlimited budget',
+    description: 'No limits on your sales or budget'
+  },
+  {
+    icon: ShoppingBagIcon,
+    name: 'Unlimited products',
+    description: 'No limits on your products or services'
+  }
 ];
 
 const Page = () => (
   <>
     <Helmet>
       <title>
-        Icons | Carpatin Free
+        Premium | C:N Calculator
       </title>
     </Helmet>
     <Box
@@ -40,65 +74,88 @@ const Page = () => (
         <Stack spacing={3}>
           <div>
             <Typography variant="h4">
-              Icons
+              Plan Premium
             </Typography>
           </div>
           <div>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                xs={12}
-                md={4}
-              >
-                <Stack spacing={1}>
-                  <Typography variant="h6">
-                    Hero Icons
+            <Card sx={{ p: 3 }}>
+              <Stack spacing={3} direction="column" sx={{ p: 1.5, alignItems: 'center', justifyContent: 'center' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    borderRadius: 1,
+                    overflow: 'hidden',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    width: '60%',
+                    gap: 2  
+                  }}
+                >
+                  <Typography variant="h3">
+                    Más que una calculadora
                   </Typography>
+
                   <Typography
                     color="text.secondary"
                     variant="body2"
+                    sx={{ textAlign: 'justify' }}
                   >
-                    We use
-                    {' '}
-                    <Link
-                      color="primary"
-                      href="https://heroicons.com"
-                      target="_blank"
-                      variant="inherit"
-                    >
-                      Hero Icons
-                    </Link>
-                    {' '}
-                    for displaying icons as we think it reflects the clean
-                    and light style of the Carpatin Design System.
+                    Con nuestro plan premium, obtienes acceso a una serie de características que te ayudarán a mejorar tu negocio. Desde la automatización hasta el soporte prioritario, tenemos todo lo que necesitas para llevar tu negocio al siguiente nivel.
                   </Typography>
-                </Stack>
-              </Grid>
-              <Grid
-                xs={12}
-                md={8}
-              >
-                <Card>
-                  <Stack
-                    alignItems="center"
-                    direction="row"
-                    spacing={2}
-                    sx={{ p: 3 }}
+
+                  <Button
+                    color="primary"
+
+                    variant="contained"
+                    size="large"
                   >
-                    {icons.map((icon, index) => (
-                      <SvgIcon
-                        key={index}
-                        sx={{ color: 'neutral.600' }}
+                    Comenzar
+                  </Button>
+                </Box>
+              </Stack>
+              <Divider sx={{ marginTop: '1rem' }} />
+              <div style={{ marginTop: '2rem' }}>
+                <Grid
+                  container
+                  spacing={3}
+                >
+                  {
+                    features.map((feature) => (
+                      <Grid
+                        xs={12}
+                        md={4}
                       >
-                        {icon}
-                      </SvgIcon>
-                    ))}
-                  </Stack>
-                </Card>
-              </Grid>
-            </Grid>
+
+                        <OverviewFeatures
+                          icon={
+                            <Avatar
+                              sx={{
+                                backgroundColor: 'primary.main',
+                                color: 'primary.contrastText',
+                                height: 56,
+                                width: 56
+                              }}
+                            >
+                              <SvgIcon>
+                                <feature.icon />
+                              </SvgIcon>
+                            </Avatar>
+                          }
+                          label={feature.name}
+                          value={feature.description}
+                        />
+                      </Grid>
+                    ))
+                  }
+
+
+
+
+                </Grid>
+              </div>
+            </Card>
+
           </div>
         </Stack>
       </Container>

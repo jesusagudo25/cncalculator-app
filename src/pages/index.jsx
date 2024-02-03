@@ -1,22 +1,24 @@
 import { Helmet } from 'react-helmet-async';
-import { subDays, subHours, subMinutes } from 'date-fns';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
-import ShoppingCartIcon from '@heroicons/react/24/solid/ShoppingCartIcon';
-import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
+
 import {
-  Avatar,
+  Card,
   Box,
   Container,
   Stack,
-  SvgIcon,
+  CardContent,
+  CardMedia,
   Typography,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Paper,
+  Button
 } from '@mui/material';
-import { OverviewKpi } from 'src/sections/overview/overview-kpi';
-import { OverviewLatestCustomers } from 'src/sections/overview/overview-latest-customers';
-import { OverviewSummary } from 'src/sections/overview/overview-summary';
+
+import Carousel from 'react-material-ui-carousel'
+import '../style/carousel.scss';
+
 
 const Page = () => (
+  
   <>
     <Helmet>
       <title>
@@ -41,7 +43,7 @@ const Page = () => (
               container
               spacing={3}
             >
-              <Grid
+{/*               <Grid
                 xs={12}
                 md={4}
               >
@@ -109,7 +111,7 @@ const Page = () => (
                   label='Transactions'
                   value='1942'
                 />
-              </Grid>
+              </Grid> */}
 
 {/*               <Grid xs={12}>
                 <OverviewKpi
@@ -198,10 +200,146 @@ const Page = () => (
 
             </Grid>
           </div>
+          <Carousel
+                autoPlay={true}
+                animation={"fade"}
+                indicators={true}
+                duration={500}
+                navButtonsAlwaysVisible={false}
+                navButtonsAlwaysInvisible={false}
+                cycleNavigation={true}
+                navButtonsProps={{
+                    style: {
+                        backgroundColor: 'white',
+                        color: 'black',
+                        borderRadius: 0
+                    }
+                }}
+                fullHeightHover={true}
+                swipe={true}
+            >
+                {
+                    items.map((item, index) => {
+                        return <Banner item={item} key={index} contentPosition={item.contentPosition} />
+                    })
+                }
+            </Carousel>
         </Stack>
       </Container>
     </Box>
   </>
 );
+
+const Banner = (props) => {
+
+  const contentPosition = props.contentPosition ? props.contentPosition : "left"
+  const totalItems = props.length ? props.length : 3;
+  const mediaLength = totalItems - 1;
+
+  let items = [];
+  const content = (
+      <Grid item xs={4} key="content">
+          <CardContent className="Content">
+              <Typography className="Title">
+                  {props.item.Name}
+              </Typography>
+
+              <Typography className="Caption">
+                  {props.item.Caption}
+              </Typography>
+
+              <Button variant="outlined" className="ViewButton">
+                  View Now
+              </Button>
+          </CardContent>
+      </Grid>
+  )
+
+
+  for (let i = 0; i < mediaLength; i++) {
+      const item = props.item.Items[i];
+
+      const media = (
+          <Grid item xs={4} key={item.Name}>
+              <CardMedia
+                  className="Media"
+                  image={item.Image}
+                  title={item.Name}
+              >
+                  <Typography className="MediaCaption">
+                      {item.Name}
+                  </Typography>
+              </CardMedia>
+
+          </Grid>
+      )
+
+      items.push(media);
+  }
+
+  if (contentPosition === "left") {
+      items.unshift(content);
+  } else if (contentPosition === "right") {
+      items.push(content);
+  } else if (contentPosition === "middle") {
+      items.splice(items.length / 2, 0, content);
+  }
+
+  return (
+      <Card raised className="Banner">
+          <Grid container spacing={0} className="BannerGrid">
+              {items}
+          </Grid>
+      </Card>
+  )
+}
+
+const items = [
+  {
+      Name: "Electronics",
+      Caption: "Electrify your friends!",
+      contentPosition: "left",
+      Items: [
+          {
+              Name: "Macbook Pro",
+              Image: "https://source.unsplash.com/featured/?macbook"
+          },
+          {
+              Name: "iPhone",
+              Image: "https://source.unsplash.com/featured/?iphone"
+          }
+      ]
+  },
+  {
+      Name: "Home Appliances",
+      Caption: "Say no to manual home labour!",
+      contentPosition: "middle",
+      Items: [
+          {
+              Name: "Washing Machine WX9102",
+              Image: "https://source.unsplash.com/featured/?washingmachine"
+          },
+          {
+              Name: "Learus Vacuum Cleaner",
+              Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
+          }
+      ]
+  },
+  {
+      Name: "Decoratives",
+      Caption: "Give style and color to your living room!",
+      contentPosition: "right",
+      Items: [
+          {
+              Name: "Living Room Lamp",
+              Image: "https://source.unsplash.com/featured/?lamp"
+          },
+          {
+              Name: "Floral Vase",
+              Image: "https://source.unsplash.com/featured/?vase"
+          }
+      ]
+  }
+]
 
 export default Page;
