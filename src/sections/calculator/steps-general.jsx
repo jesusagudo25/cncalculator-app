@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { GeneralData } from './general-data';
 import { Ingredients } from './ingredients';
 import { Results } from './results';
+import { Card, Stack } from '@mui/material';
 
 const steps = ['Datos generales', 'Selección de ingredientes', 'Resultado'];
 
@@ -54,9 +55,21 @@ export const StepsGeneral = (props) => {
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            Se ha completado el proceso
-          </Typography>
+          <div>
+            <Card sx={{ p: 5 }}>
+              <Box >
+                <Stack spacing={3}>
+                  <img src="/assets/abono.png" alt="logo" style={{ width: '100px', height: '100px', margin: 'auto' }} />
+                  <Typography sx={{ mt: 2, mb: 1, textAlign: 'center' }} variant="h4">
+                    ¡Gracias {formData.generalData.name} por utilizar nuestra calculadora!
+                  </Typography>
+                  <Typography sx={{ mt: 2, mb: 1, textAlign: 'center' }} variant="body1">
+                    Por favor, tome nota de los resultados y no olvide guardarlos.
+                  </Typography>
+                </Stack>
+              </Box>
+            </Card>
+          </div>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleReset}>Reiniciar</Button>
@@ -64,11 +77,11 @@ export const StepsGeneral = (props) => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          
+
           {
             activeStep === 0 ? <GeneralData formData={formData} setFormData={setFormData} /> :
-            activeStep === 1 ? <Ingredients formData={formData} setFormData={setFormData} /> :
-            activeStep === 2 ? <Results formData={formData} setFormData={setFormData} /> : null
+              activeStep === 1 ? <Ingredients formData={formData} setFormData={setFormData} /> :
+                activeStep === 2 ? <Results formData={formData} setFormData={setFormData} /> : null
           }
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

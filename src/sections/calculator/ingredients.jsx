@@ -10,11 +10,13 @@ import {
   FormHelperText,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 
 //data file ingredients.json
 import ingredientsData from '../../data/ingredients.json';
-import { CheckBox } from '@mui/icons-material';
+
 
 export const Ingredients = (props) => {
 
@@ -22,16 +24,10 @@ export const Ingredients = (props) => {
   const { formData, setFormData } = props;
 
   //filter ingredientsData, two lists: formData.cn < carbon_nitrogen
-  const cn = formData.cn;
-  console.log(cn);
+  const cn = formData.generalData.cn;
+
   const filteredLessIngredients = ingredientsData.filter((item) => item.carbon_nitrogen <= cn);
   const filteredMoreIngredients = ingredientsData.filter((item) => item.carbon_nitrogen > cn);
-
-
-  const handleSubmit = (values) => {
-    // Lógica para manejar el envío del formulario
-    console.log(values);
-  };
 
   // Generar opciones de checkbox dinámicamente
   const checkboxLessOptions = filteredLessIngredients.map((item, index) => ({
@@ -46,21 +42,56 @@ export const Ingredients = (props) => {
     id: item.id
   }));
 
+  const initialValues = {}
+  checkboxLessOptions.forEach((option) => {
+    initialValues[`checkboxFields_${option.id}`] = false;
+  });
+
+  checkboxMoreOptions.forEach((option) => {
+    initialValues[`checkboxFields_${option.id}`] = false;
+  });
+
+  const handleSubmit = (values) => {
+    // SetDataForm - ingredients Propiedad
+
+    //get selected ingredients
+    const selectedIngredients = [];
+    for (const key in values) {
+      if (values[key]) {
+        const id = key.split('_')[1];
+        //search ingredient by id
+        const ingredient = ingredientsData.find((item) => item.id == id);
+
+        selectedIngredients.push(ingredient);
+      }
+    }
+
+    setFormData({
+      ...formData,
+      ingredients: selectedIngredients
+    });
+
+  };
+
   return (
     <div>
       <Card sx={{ p: 5 }}>
         <Formik
-          initialValues={{
-            checkboxFields: Array(checkboxLessOptions.length + checkboxMoreOptions.length).fill(false),
-          }}
+          initialValues={initialValues}
           onSubmit={handleSubmit}
         >
           {(formikProps) => (
             <Form >
               <Box >
+                <Typography variant="h4" sx={{ textAlign: 'center' }}>
+                  Lista de ingredientes
+                </Typography>
 
-                <Stack spacing={5} direction="row" justifyContent="center">
+                <Stack spacing={5} direction="row" justifyContent="center" sx={{ mt: 3 }}>
                   <Stack spacing={3} sx={{ width: '40%' }} alignItems="flex-end">
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                      Ingredientes con CN menor o igual a {cn}
+                    </Typography>
                     {checkboxLessOptions.map((option, index) => (
                       <FormControlLabel
                         key={index}
@@ -69,7 +100,7 @@ export const Ingredients = (props) => {
                             checked={formikProps.values.checkboxField}
                             onChange={formikProps.handleChange}
                             onBlur={formikProps.handleBlur}
-                            name={`checkboxFields[${option.id}]`}
+                            name={`checkboxFields_${option.id}`}
                             color="primary"
                           />
                         }
@@ -81,6 +112,9 @@ export const Ingredients = (props) => {
                   </Stack>
                   <Divider orientation="vertical" flexItem sx={{ borderColor: '#bdbdbd' }} />
                   <Stack spacing={3} sx={{ width: '40%' }} alignItems="flex-start">
+                    <Typography variant="h6" sx={{ textAlign: 'center' }}>
+                      Ingredientes con CN mayor a {cn}
+                    </Typography>
                     {checkboxMoreOptions.map((option, index) => (
                       <FormControlLabel
                         key={index}
@@ -89,7 +123,7 @@ export const Ingredients = (props) => {
                             checked={formikProps.values.checkboxField}
                             onChange={formikProps.handleChange}
                             onBlur={formikProps.handleBlur}
-                            name={`checkboxFields[${option.id}]`}
+                            name={`checkboxFields_${option.id}`}
                             color="primary"
                           />
                         }
@@ -122,4 +156,7 @@ export const Ingredients = (props) => {
   )
 }
 
-Ingredients.propTypes = {}
+Ingredients.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired
+}

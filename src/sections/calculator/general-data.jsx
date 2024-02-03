@@ -1,4 +1,5 @@
-import { Helmet } from 'react-helmet-async';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -55,7 +56,11 @@ export const GeneralData = (props) => {
     onSubmit: async (values, helpers) => {
       helpers.setStatus({ success: true });
       helpers.setSubmitting(false);
-      setFormData(values);
+      // SetDataForm - generalData Propiedad
+      setFormData({
+        ...formData,
+        generalData: values
+      });
     }
   });
 
@@ -157,4 +162,7 @@ export const GeneralData = (props) => {
   )
 }
 
-GeneralData.propTypes = {}
+GeneralData.propTypes = {
+  formData: PropTypes.object,
+  setFormData: PropTypes.func
+}
