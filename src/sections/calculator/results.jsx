@@ -50,13 +50,11 @@ export const Results = (props) => {
 
     })
 
-
     const C1 = averageCarbonLess / contLess;
     const C2 = averageCarbonMore / contMore;
 
     const N1 = averageNitrogenLess / contLess;
     const N2 = averageNitrogenMore / contMore;
-
 
     const partialWeightLess = weight * ((C2) - (cn * N2)) / ((C2 - C1) + (cn * N1) - (cn * N2));
     console.log(partialWeightLess);
@@ -83,7 +81,6 @@ export const Results = (props) => {
       }
     });
 
-    console.log(result);
 
     setResult(result);
     setIsLoading(false);

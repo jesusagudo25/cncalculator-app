@@ -40,119 +40,241 @@ const Page = () => {
                 Soporte
               </Typography>
             </div>
-            <Stack spacing={3} direction="row">
-
-                <Card sx={{ width: '50%' }}>
-                  <Stack
-                    spacing={3}
-                    sx={{ p: 3 }}
-                  >
-                    <Typography variant="h4">
-                      Funcionalidades de la aplicación
-                    </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', borderRadius: 1, overflow: 'hidden' }}>
-                      <ReactPlayer
-                        url="https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-                        width="100%"
-                        height="100%"
-                        controls
-                      />
-                    </Box>
-                  </Stack>
-                </Card>
-
-                <Card sx={{ width: '50%' }}>
-                  <Stack
-                    spacing={3}
-                    sx={{ p: 3 }}
-                  >
-                    <Typography variant="h4">
-                      Contacto
+            <div>
+              <Grid
+                container
+                spacing={3}
+              >
+                <Grid
+                  xs={12}
+                  md={4}
+                >
+                  <Stack spacing={1}>
+                    <Typography variant="h6">
+                      Aspectos fundamentales de la agronomía
                     </Typography>
                     <Typography
-                    color="text.secondary"
-                    variant="body2"
-                  >
-                    Puedes contactarnos a través de los siguientes medios:
-                    {' '}
-                    <ul>
-                      <li>
-                        <Link
-                          color="primary"
-                          href="mailto:a"
-                          target="_blank"
-                          variant="inherit"
-                        >
-                          Correo electrónico
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          color="primary"
-                          href="https://www.facebook.com/"
-                          target="_blank"
-                          variant="inherit"
-                        >
-                          Facebook
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          color="primary"
-                          href="https://www.instagram.com/"
-                          target="_blank"
-                          variant="inherit"
-                        >
-                          Instagram
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          color="primary"
-                          href="https://www.linkedin.com/"
-                          target="_blank"
-                          variant="inherit"
-                        >
-                          LinkedIn
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          color="primary"
-                          href="https://www.twitter.com/"
-                          target="_blank"
-                          variant="inherit"
-                        >
-                          Twitter
-                        </Link>
-                      </li>
-                    </ul>
-
-                    
-                  </Typography>
-                  </Stack>
-                </Card>
-
-                <Card sx={{ width: '50%' }}>
-                  <Stack
-                    spacing={3}
-                    sx={{ p: 3 }}
-                  >
-                    <Typography variant="h4">
-                      Aspectos agronómicos
+                      color="text.secondary"
+                      variant="body2"
+                    >
+                      La agronomía es la ciencia que se encarga de estudiar los suelos y los cultivos, con el fin de optimizar la producción agrícola.  Con el fin de ayudarte a tomar decisiones informadas sobre el manejo de tus cultivos, la calculadora C:N te permite calcular la relación Carbono:Nitrógeno de tus suelos.
+                      <br />
+                      <br />
+                      A continuación, te presentamos los aspectos fundamentales de la agronomía que debes conocer para sacar el máximo provecho de la calculadora.
                     </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', borderRadius: 1, overflow: 'hidden' }}>
-                      <ReactPlayer
-                        url="https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-                        width="100%"
-                        height="100%"
-                        controls
-                      />
-                    </Box>
                   </Stack>
-                </Card>
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={8}
+                >
+                  <Card>
+                    <Stack
 
-              </Stack>
+                      sx={{ p: 3, gap: 2, alignItems: 'center', justifyContent: 'center' }}
+                      flexDirection={{ xs: 'column', md: 'row' }}
+                    >
+
+                      <Stack spacing={3} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <ReactPlayer
+                          url="/assets/videos/agronomy.mp4"
+                          controls
+                          style={{ borderRadius: 8 }}
+                        />
+                        <Typography color="text.secondary"
+                          variant="body2">
+                          ¿Necesitas ayuda? <Link href="mailto:info@cncalculator.com" color="primary">Contáctanos</Link>
+                        </Typography>
+                      </Stack>
+
+
+                      <Stack spacing={3} direction="column">
+                        <Link href="mailto:info@cncalculator.com">
+                          <Avatar
+                            alt="Email"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Email_icon.png"
+                            sx={{ width: 35, height: 35 }}
+                          />
+                        </Link>
+
+                        <Link href="https://www.linkedin.com/in/cncalculator">
+                          <Avatar
+                            alt="LinkedIn"
+                            src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+                            sx={{ width: 35, height: 35 }}
+                          />
+
+                        </Link>
+
+                        <Link href="https://www.twitter.com/cncalculator">
+                          <Avatar
+                            alt="X"
+                            src="https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?w=740&t=st=1710128335~exp=1710128935~hmac=89628088b195563fe404c00a3d2d9812b026eb919661d0faaa4da1578da7dcfa"
+                            sx={{ width: 35, height: 35 }}
+                          />
+
+                        </Link>
+
+                      </Stack>
+                    </Stack>
+                  </Card>
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={4}
+                >
+                  <Stack spacing={1}>
+                    <Typography variant="h6">
+                      Funcionalidades de la calculadora
+                    </Typography>
+                    <Typography
+                      color="text.secondary"
+                      variant="body2"
+                    >
+                      La calculadora C:N es una herramienta que te permite calcular la relación Carbono:Nitrógeno de tus suelos, con el fin de ayudarte a tomar decisiones informadas sobre el manejo de tus cultivos.
+                      <br />
+                      <br />
+                      A continuación, te presentamos las funcionalidades de la calculadora que debes conocer para sacar el máximo provecho de la calculadora.
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={8}
+                >
+                  <Card>
+                    <Stack
+
+                      sx={{ p: 3, gap: 2, alignItems: 'center', justifyContent: 'center' }}
+                      flexDirection={{ xs: 'column', md: 'row' }}
+                    >
+
+                      <Stack spacing={3} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <ReactPlayer
+                          url="#"
+                          controls
+                          style={{ borderRadius: 8 }}
+                        />
+                        <Typography color="text.secondary"
+                          variant="body2">
+                          ¿Necesitas ayuda? <Link href="mailto:info@cncalculator.com" color="primary">Contáctanos</Link>
+                        </Typography>
+                      </Stack>
+
+                      <Stack spacing={3} direction="column">
+                        <Link href="mailto:info@cncalculator.com">
+                          <Avatar
+                            alt="Email"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Email_icon.png"
+                            sx={{ width: 35, height: 35 }}
+                          />
+                        </Link>
+
+                        <Link href="https://www.linkedin.com/in/cncalculator">
+                          <Avatar
+                            alt="LinkedIn"
+                            src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+                            sx={{ width: 35, height: 35 }}
+                          />
+
+                        </Link>
+
+                        <Link href="https://www.twitter.com/cncalculator">
+                          <Avatar
+                            alt="X"
+                            src="https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?w=740&t=st=1710128335~exp=1710128935~hmac=89628088b195563fe404c00a3d2d9812b026eb919661d0faaa4da1578da7dcfa"
+                            sx={{ width: 35, height: 35 }}
+                          />
+
+                        </Link>
+
+                      </Stack>
+                    </Stack>
+                  </Card>
+                </Grid>
+              </Grid>
+            </div>
+            {/*             <Stack spacing={3} >
+
+              <Card sx={{ width: '100%' }}>
+                <Stack spacing={3} direction="column" sx={{ p: 1.5, alignItems: 'center', justifyContent: 'center' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      borderRadius: 1,
+                      overflow: 'hidden',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+
+                      gap: 2
+                    }}
+                  >
+                    <Typography variant="h3">
+                      Aspectos fundamentales de la agronomía
+                    </Typography>
+
+                    <Typography
+                      color="text.secondary"
+                      variant="body2"
+                      sx={{ textAlign: 'justify' }}
+                    >
+                      La calculadora C:N es una herramienta que te permite calcular la relación Carbono:Nitrógeno de tus suelos, con el fin de ayudarte a tomar decisiones informadas sobre el manejo de tus cultivos. A continuación, te presentamos los aspectos fundamentales de la agronomía que debes conocer para sacar el máximo provecho de la calculadora.
+                    </Typography>
+
+                    <ReactPlayer
+                      url="/assets/agronomy.mp4"
+                      controls
+                      style={{ borderRadius: 8 }}
+                    />
+
+                    <Typography variant="h6">
+                      ¿Necesitas ayuda?
+                    </Typography>
+
+                    <Typography
+                      color="text.secondary"
+                      variant="body2"
+                      sx={{ textAlign: 'justify' }}
+                    >
+                      Si tienes alguna pregunta o necesitas ayuda con la calculadora, no dudes en contactarnos. Estamos aquí para ayudarte.
+                    </Typography>
+
+                    <Stack spacing={3} direction="row" sx={{ p: 1.5, alignItems: 'center', justifyContent: 'center' }}>
+                      <Link href="mailto:info@cncalculator.com">
+                        <Avatar
+                          alt="Email"
+                          src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Email_icon.png"
+                        />
+                      </Link>
+
+                      <Link href="https://www.linkedin.com/in/cncalculator">
+                        <Avatar
+                          alt="LinkedIn"
+                          src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+                        />
+
+                      </Link>
+
+                      <Link href="https://www.twitter.com/cncalculator">
+                        <Avatar
+                          alt="X"
+                          src="https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg?w=740&t=st=1710128335~exp=1710128935~hmac=89628088b195563fe404c00a3d2d9812b026eb919661d0faaa4da1578da7dcfa"
+                        />
+
+                      </Link>
+
+                    </Stack>
+                    
+
+
+
+                  </Box>
+                </Stack>
+
+              </Card>
+
+            </Stack> */}
           </Stack>
         </Container>
       </Box>

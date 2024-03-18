@@ -23,6 +23,35 @@ export const StepsGeneral = (props) => {
 
   const handleNext = () => {
     let newSkipped = skipped;
+    console.log(formData);
+
+    const {cn } = formData.generalData;
+
+    if (activeStep === 0 && !formData.generalData) {
+      alert('Por favor, complete los datos generales');
+      return;
+    }
+
+    if (activeStep === 1 && !formData.ingredients) {
+      alert('Por favor, seleccione los ingredientes');
+      return;
+    }
+
+    if(activeStep === 1 && formData.ingredients.length ){
+      console.log('No hay ingredientes seleccionados');
+      const countCnLess = formData.ingredients.filter((item) => item.carbon_nitrogen <= cn).length;
+      const countCnMore = formData.ingredients.filter((item) => item.carbon_nitrogen > cn).length;
+      if(countCnLess < 1){
+        alert('No hay ingredientes con C:N menor o igual a ' + cn);
+        return;
+      }
+      if(countCnMore < 1){
+        alert('No hay ingredientes con C:N mayor a ' + cn);
+        return;
+      }
+    }
+      
+    
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
@@ -30,6 +59,7 @@ export const StepsGeneral = (props) => {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    
   };
 
   const handleBack = () => {
@@ -37,7 +67,8 @@ export const StepsGeneral = (props) => {
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    //setActiveStep(0);
+    location.reload();
   };
 
   return (
@@ -59,7 +90,7 @@ export const StepsGeneral = (props) => {
             <Card sx={{ p: 5 }}>
               <Box >
                 <Stack spacing={3}>
-                  <img src="/assets/abono.png" alt="logo" style={{ width: '100px', height: '100px', margin: 'auto' }} />
+                  <img src="/assets/images/fertilizer.png" alt="logo" style={{ width: '100px', height: '100px', margin: 'auto' }} />
                   <Typography sx={{ mt: 2, mb: 1, textAlign: 'center' }} variant="h4">
                     ¡Gracias {formData.generalData.name} por utilizar nuestra calculadora!
                   </Typography>

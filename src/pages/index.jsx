@@ -43,160 +43,6 @@ const Page = () => (
               container
               spacing={3}
             >
-{/*               <Grid
-                xs={12}
-                md={4}
-              >
-                <OverviewSummary
-                  icon={
-                    <Avatar
-                      sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'primary.contrastText',
-                        height: 56,
-                        width: 56
-                      }}
-                    >
-                      <SvgIcon>
-                        <ShoppingBagIcon />
-                      </SvgIcon>
-                    </Avatar>
-                  }
-                  label='Orders'
-                  value='5610'
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={4}
-              >
-                <OverviewSummary
-                  icon={
-                    <Avatar
-                      sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'primary.contrastText',
-                        height: 56,
-                        width: 56
-                      }}
-                    >
-                      <SvgIcon>
-                        <ShoppingCartIcon />
-                      </SvgIcon>
-                    </Avatar>
-                  }
-                  label='Products'
-                  value='23'
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={4}
-              >
-                <OverviewSummary
-                  icon={
-                    <Avatar
-                      sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'primary.contrastText',
-                        height: 56,
-                        width: 56
-                      }}
-                    >
-                      <SvgIcon>
-                        <CurrencyDollarIcon />
-                      </SvgIcon>
-                    </Avatar>
-                  }
-                  label='Transactions'
-                  value='1942'
-                />
-              </Grid> */}
-
-{/*               <Grid xs={12}>
-                <OverviewKpi
-                  chartSeries={[
-                    {
-                      data: [0, 20, 40, 30, 30, 44, 90],
-                      name: 'Revenue'
-                    }
-                  ]}
-                  stats={[
-                    {
-                      label: 'Revenue',
-                      value: '$4,800.00'
-                    },
-                    {
-                      label: 'NET',
-                      value: '$4,900,24'
-                    },
-                    {
-                      label: 'Pending orders',
-                      value: '$1,600.50'
-                    },
-                    {
-                      label: 'Due',
-                      value: '$6,900.10'
-                    },
-                    {
-                      label: 'Overdue',
-                      value: '$6,500.80'
-                    }
-                  ]}
-                />
-              </Grid>
-
-              <Grid xs={12}>
-                <OverviewLatestCustomers
-                  customers={[
-                    {
-                      id: 'a105ac46530704806ca58ede',
-                      amountSpent: 684.45,
-                      avatar: '/assets/avatars/avatar-fabiano-jorioz.jpg',
-                      createdAt: subDays(subHours(subMinutes(now, 7), 3), 2).getTime(),
-                      isOnboarded: true,
-                      name: 'Fabiano Jorioz',
-                      orders: 2
-                    },
-                    {
-                      id: '126ed71fc9cbfabc601c56c5',
-                      amountSpent: 0,
-                      avatar: '/assets/avatars/avatar-meggie-heinonen.jpg',
-                      createdAt: subDays(subHours(subMinutes(now, 7), 3), 2).getTime(),
-                      isOnboarded: false,
-                      name: 'Meggie Heinonen',
-                      orders: 0
-                    },
-                    {
-                      id: 'aafaeb0545357922aff32a7b',
-                      amountSpent: 32.25,
-                      avatar: '/assets/avatars/avatar-sean-picott.jpg',
-                      createdAt: subDays(subHours(subMinutes(now, 11), 2), 3).getTime(),
-                      isOnboarded: true,
-                      name: 'Sean Picott',
-                      orders: 1
-                    },
-                    {
-                      id: '16b526d9e0fefe53f7eba66b',
-                      amountSpent: 0,
-                      avatar: '/assets/avatars/avatar-bell-covely.jpg',
-                      createdAt: subDays(subHours(subMinutes(now, 18), 9), 5).getTime(),
-                      isOnboarded: true,
-                      name: 'Bell Covely',
-                      orders: 0
-                    },
-                    {
-                      id: 'fe035356923629912236d9a2',
-                      amountSpent: 125.70,
-                      avatar: '/assets/avatars/avatar-giraud-lamlin.jpg',
-                      createdAt: subDays(subHours(subMinutes(now, 19), 18), 7).getTime(),
-                      isOnboarded: false,
-                      name: 'Giraud Lamlin',
-                      orders: 1
-                    }
-                  ]}
-                />
-              </Grid> */}
 
             </Grid>
           </div>
@@ -249,7 +95,7 @@ const Banner = (props) => {
               </Typography>
 
               <Button variant="outlined" className="ViewButton">
-                  View Now
+                  Ver más
               </Button>
           </CardContent>
       </Grid>
@@ -296,47 +142,47 @@ const Banner = (props) => {
 
 const items = [
   {
-      Name: "Electronics",
-      Caption: "Electrify your friends!",
+      Name: "Innovación Agropecuaria",
+      Caption: "Impulsa tu emprendimiento y se parte de la economía circular del agro!",
       contentPosition: "left",
       Items: [
           {
-              Name: "Macbook Pro",
-              Image: "https://source.unsplash.com/featured/?macbook"
+              Name: "Economia Circular",
+              Image: "https://i.imgur.com/ZRIFi0h.png"
           },
           {
-              Name: "iPhone",
-              Image: "https://source.unsplash.com/featured/?iphone"
+              Name: "Emprendimiento",
+              Image: "https://i.imgur.com/fLITOfo.jpeg"
           }
       ]
   },
   {
-      Name: "Home Appliances",
-      Caption: "Say no to manual home labour!",
+      Name: "Automatización de procesos",
+      Caption: "Automatiza el calculo de los insumos o ingredientes que necesitas para tu producción!",
       contentPosition: "middle",
       Items: [
           {
-              Name: "Washing Machine WX9102",
-              Image: "https://source.unsplash.com/featured/?washingmachine"
+              Name: "Calculos matemáticos",
+              Image: "https://i.imgur.com/8J2ott0.jpeg"
           },
           {
-              Name: "Learus Vacuum Cleaner",
-              Image: "https://source.unsplash.com/featured/?vacuum,cleaner"
+              Name: "Automatización",
+              Image: "https://i.imgur.com/tGvvAzv.jpeg"
           }
       ]
   },
   {
-      Name: "Decoratives",
-      Caption: "Give style and color to your living room!",
+      Name: "Planificación a la medida",
+      Caption: "Planificas tu compostaje y dejas atrás el ensayo y error!",
       contentPosition: "right",
       Items: [
           {
-              Name: "Living Room Lamp",
-              Image: "https://source.unsplash.com/featured/?lamp"
+              Name: "Evita el ensayo y error",
+              Image: "https://i.imgur.com/gjEkjIZ.jpeg"
           },
           {
-              Name: "Floral Vase",
-              Image: "https://source.unsplash.com/featured/?vase"
+              Name: "Compostaje",
+              Image: "https://i.imgur.com/yEN6JLy.jpeg"
           }
       ]
   }

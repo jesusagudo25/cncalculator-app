@@ -37,7 +37,7 @@ export const items = [
     label: 'Soporte'
   },
   {
-    href: '/blog',
+    href: 'https://cncalculator.github.io/',
     icon: (
       <SvgIcon>
         <DocumentTextIcon />

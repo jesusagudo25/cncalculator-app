@@ -42,13 +42,16 @@ export const Ingredients = (props) => {
     id: item.id
   }));
 
+  const { ingredients } = formData;
+  
   const initialValues = {}
   checkboxLessOptions.forEach((option) => {
-    initialValues[`checkboxFields_${option.id}`] = false;
+    initialValues[`checkboxFields_${option.id}`] = ingredients ? ingredients.some((item) => item.id == option.id) : false; //true or false
   });
+  console.log(initialValues);
 
   checkboxMoreOptions.forEach((option) => {
-    initialValues[`checkboxFields_${option.id}`] = false;
+    initialValues[`checkboxFields_${option.id}`] = ingredients ? ingredients.some((item) => item.id == option.id) : false; //true or false
   });
 
   const handleSubmit = (values) => {
@@ -81,6 +84,7 @@ export const Ingredients = (props) => {
           onSubmit={handleSubmit}
         >
           {(formikProps) => (
+            console.log(formikProps.values),
             <Form >
               <Box >
                 <Typography variant="h4" sx={{ textAlign: 'center' }}>
@@ -97,7 +101,7 @@ export const Ingredients = (props) => {
                         key={index}
                         control={
                           <Checkbox
-                            checked={formikProps.values.checkboxField}
+                            checked={formikProps.values[`checkboxFields_${option.id}`]}
                             onChange={formikProps.handleChange}
                             onBlur={formikProps.handleBlur}
                             name={`checkboxFields_${option.id}`}
@@ -120,7 +124,7 @@ export const Ingredients = (props) => {
                         key={index}
                         control={
                           <Checkbox
-                            checked={formikProps.values.checkboxField}
+                            checked={formikProps.values[`checkboxFields_${option.id}`]}
                             onChange={formikProps.handleChange}
                             onBlur={formikProps.handleBlur}
                             name={`checkboxFields_${option.id}`}

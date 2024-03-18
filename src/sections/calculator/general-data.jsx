@@ -49,9 +49,11 @@ export const GeneralData = (props) => {
 
   //recibir props
   const { formData, setFormData } = props;
+  const { generalData } = formData;
+  
 
   const formik = useFormik({
-    initialValues,
+    initialValues: generalData || initialValues,
     validationSchema,
     onSubmit: async (values, helpers) => {
       helpers.setStatus({ success: true });

@@ -53,7 +53,7 @@ export const TopNav = () => (
       >
         <Link
           color="inherit"
-          href="#"
+          href="/premium"
           target="_blank"
           variant="body2"
         >

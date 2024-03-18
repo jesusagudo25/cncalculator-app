@@ -1,11 +1,13 @@
 import { Helmet } from 'react-helmet-async';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
-import DocumentTextIcon from '@heroicons/react/24/solid/DocumentTextIcon';
-import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
-import ShoppingCartIcon from '@heroicons/react/24/solid/ShoppingCartIcon';
+
+//import CogIcon from '@heroicons/react/24/solid/CogIcon';
+import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
+import ChatBubbleOvalIcon from '@heroicons/react/24/solid/ChatBubbleOvalLeftIcon';
+import FunnelIcon from '@heroicons/react/24/solid/FunnelIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
-import StarIcon from '@heroicons/react/24/solid/StarIcon';
+import ChatBubbleBottomCenterTextIcon from '@heroicons/react/24/solid/ChatBubbleBottomCenterTextIcon';
+import CogIcon from '@heroicons/react/24/solid/CogIcon';
+
 import {
   Box,
   Card,
@@ -26,34 +28,34 @@ import { OverviewFeatures } from 'src/sections/premium/overview-features';
 
 const features = [
   {
-    icon: CogIcon,
-    name: 'Automation',
-    description: 'Save time and money with our automation tools'
+    icon: ArrowPathIcon,
+    name: 'Actualización',
+    description: 'Valores de C:N actualizados y nuevos ingredientes'
   },
   {
-    icon: DocumentTextIcon,
-    name: 'Reports',
-    description: 'Get detailed reports of your sales and performance'
+    icon: ChatBubbleOvalIcon,
+    name: 'Humedad',
+    description: 'Cálculo de humedad en ingredientes'
   },
   {
-    icon: HomeIcon,
-    name: 'Real-time data',
-    description: 'Get real-time data on your website and sales'
-  },
-  {
-    icon: StarIcon,
-    name: 'Premium support',
-    description: 'Get priority support from our team'
+    icon: FunnelIcon,
+    name: 'Costo de compost',
+    description: 'Calcula el costo de compostaje'
   },
   {
     icon: CurrencyDollarIcon,
-    name: 'Unlimited budget',
-    description: 'No limits on your sales or budget'
+    name: 'Costo minimo',
+    description: 'Combinación de ingredientes de costo mínimo'
   },
   {
-    icon: ShoppingBagIcon,
-    name: 'Unlimited products',
-    description: 'No limits on your products or services'
+    icon: ChatBubbleBottomCenterTextIcon,
+    name: 'Foros y grupos',
+    description: 'Acceso a foros y grupos de discusión'
+  },
+  {
+    icon: CogIcon,
+    name: 'Soporte prioritario',
+    description: 'Soporte prioritario en línea'
   }
 ];
 
@@ -105,8 +107,12 @@ const Page = () => (
                   </Typography>
 
                   <Button
-                    color="primary"
-
+                    sx={{ backgroundColor: '#F09E54', color: 'primary.contrastText',  '&:hover': { backgroundColor: '#FE8235' } }}
+                    onClick={() => {
+                      //enviar mesaje whatsapp
+                      window.open('https://wa.me/573008888888?text=Hola%20me%20gustaría%20saber%20más%20sobre%20el%20plan%20premium', '_blank');
+                    }}
+                    
                     variant="contained"
                     size="large"
                   >
@@ -144,6 +150,7 @@ const Page = () => (
                           }
                           label={feature.name}
                           value={feature.description}
+                          key={feature.name}
                         />
                       </Grid>
                     ))
