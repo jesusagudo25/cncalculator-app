@@ -25,7 +25,7 @@ export const StepsGeneral = (props) => {
     let newSkipped = skipped;
     console.log(formData);
 
-    const {cn } = formData.generalData;
+    const {cn } = formData.generalData ? formData.generalData : 0;
 
     if (activeStep === 0 && !formData.generalData) {
       alert('Por favor, complete los datos generales');
