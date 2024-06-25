@@ -158,7 +158,7 @@ const items = [
   },
   {
       Name: "Automatización de procesos",
-      Caption: "Automatiza el calculo de los insumos o ingredientes que necesitas para tu producción!",
+      Caption: "Automatiza el cálculo de los insumos o ingredientes que necesitas para tu producción!",
       contentPosition: "middle",
       Items: [
           {

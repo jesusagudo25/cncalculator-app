@@ -51,16 +51,16 @@ const Page = () => {
                 >
                   <Stack spacing={1}>
                     <Typography variant="h6">
-                      Aspectos fundamentales de la agronomía
+                      Aspectos generales sobre el compostaje
                     </Typography>
                     <Typography
                       color="text.secondary"
                       variant="body2"
                     >
-                      La agronomía es la ciencia que se encarga de estudiar los suelos y los cultivos, con el fin de optimizar la producción agrícola.  Con el fin de ayudarte a tomar decisiones informadas sobre el manejo de tus cultivos, la calculadora C:N te permite calcular la relación Carbono:Nitrógeno de tus suelos.
+                      Los novatos en el tema encontrarán en este apartado nociones básicas que le guiarán en sus primeras experiencias de compostaje; mientras que los más expertos identificarán las bases teóricos que dan origen a C:N calculator.
                       <br />
                       <br />
-                      A continuación, te presentamos los aspectos fundamentales de la agronomía que debes conocer para sacar el máximo provecho de la calculadora.
+                      A continuación, te presentamos los aspectos generales sobre el compostaje que debes conocer para sacar el máximo provecho de la calculadora.
                     </Typography>
                   </Stack>
                 </Grid>
@@ -125,16 +125,19 @@ const Page = () => {
                 >
                   <Stack spacing={1}>
                     <Typography variant="h6">
-                      Funcionalidades de la calculadora
+                      Como usar C:N calculator
                     </Typography>
                     <Typography
                       color="text.secondary"
                       variant="body2"
                     >
-                      La calculadora C:N es una herramienta que te permite calcular la relación Carbono:Nitrógeno de tus suelos, con el fin de ayudarte a tomar decisiones informadas sobre el manejo de tus cultivos.
+                      Amigo usuario, tienes a tu disposición una herramienta que simplifica el cálculo de las cantidades de insumos o ingredientes para tu compostaje, centrándose  en la relación Carbono: Nitrogeno (C:N). En este apartado aprenderás a usar los cuadros de dialogo disponible en la calculadora C:N calculator y podrás obtener las “recetas” o “formulas” para tu abono compost.
                       <br />
                       <br />
-                      A continuación, te presentamos las funcionalidades de la calculadora que debes conocer para sacar el máximo provecho de la calculadora.
+                      Si te gusta investigar  encontrarás la  oportunidad para realizar ensayos o experimentos y si eres emprendedor tendrás nuevos productos que ofertar.
+                      <br />
+                      <br />
+                      A continuación, te presentamos un video tutorial sobre cómo usar la calculadora C:N.
                     </Typography>
                   </Stack>
                 </Grid>

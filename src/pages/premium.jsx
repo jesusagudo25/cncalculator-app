@@ -35,27 +35,27 @@ const features = [
   {
     icon: ChatBubbleOvalIcon,
     name: 'Humedad',
-    description: 'Cálculo de humedad en ingredientes'
+    description: 'Puedes trabajar con valores de humedad'
   },
   {
     icon: FunnelIcon,
     name: 'Costo de compost',
-    description: 'Calcula el costo de compostaje'
+    description: 'Estima el costo del compost por unidad producida'
   },
   {
     icon: CurrencyDollarIcon,
     name: 'Costo minimo',
-    description: 'Combinación de ingredientes de costo mínimo'
+    description: 'Combinación de ingredientes de costo mínimo para mercados competitivos'
   },
   {
     icon: ChatBubbleBottomCenterTextIcon,
-    name: 'Foros y grupos',
-    description: 'Acceso a foros y grupos de discusión'
+    name: 'Ingredientes almacenados',
+    description: 'Calculo de mezclas con ingredientes almacenados dentro de la empresa solicitante'
   },
   {
     icon: CogIcon,
     name: 'Soporte prioritario',
-    description: 'Soporte prioritario en línea'
+    description: 'Soporte prioritario para resolver tus dudas y problemas'
   }
 ];
 
@@ -97,6 +97,12 @@ const Page = () => (
                   <Typography variant="h3">
                     Más que una calculadora
                   </Typography>
+
+                  <img
+                    src="/assets/images/calculator.png"
+                    alt="Premium"
+                    style={{ width: '32%' }}
+                  />
 
                   <Typography
                     color="text.secondary"

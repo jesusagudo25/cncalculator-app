@@ -23,17 +23,17 @@ export const StepsGeneral = (props) => {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    console.log(formData);
+
 
     const {cn } = formData.generalData ? formData.generalData : 0;
 
     if (activeStep === 0 && !formData.generalData) {
-      alert('Por favor, complete los datos generales');
+      alert('Por favor, debe guardar los datos para continuar...');
       return;
     }
 
     if (activeStep === 1 && !formData.ingredients) {
-      alert('Por favor, seleccione los ingredientes');
+      alert('Por favor, debe guardar los ingredientes para continuar...');
       return;
     }
 

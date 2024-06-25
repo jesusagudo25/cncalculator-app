@@ -13,7 +13,7 @@ import {
   Button
 } from '@mui/material';
 
-const unitsOptions = ['Libras', 'Kilogramos', 'Gramos', 'Miligramos'];
+const unitsOptions = ['Libras', 'Kilogramos', 'Quintales', 'Toneladas'];
 
 const initialValues = {
   units: 'Libras',
@@ -36,12 +36,12 @@ const validationSchema = Yup.object({
     .number()
     .required('Peso es requerido')
     .min(1, 'El valor mínimo es 1')
-    .max(100, 'El valor máximo es 100'),
+    .max(1000, 'El valor máximo es 1000'),
   cn: Yup
     .number()
     .required('C:N es requerido')
     .min(25, 'El valor mínimo es 25')
-    .max(30, 'El valor máximo es 30')
+    .max(35, 'El valor máximo es 35')
 });
 
 

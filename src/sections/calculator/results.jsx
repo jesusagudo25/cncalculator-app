@@ -10,8 +10,11 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Button,
+  SvgIcon
 } from '@mui/material';
+import ExcelIcon from '@mui/icons-material/Download';
 
 
 export const Results = (props) => {
@@ -86,6 +89,26 @@ export const Results = (props) => {
     setIsLoading(false);
   };
 
+  const exportToExcel = (data) => {
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      saveAsExcelFile(excelBuffer, 'results');
+    });
+  }
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data = new Blob([buffer], { type: EXCEL_TYPE });
+      FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+    });
+  }
+
+  
+
   useEffect(() => {
     calculate();
   }, [formData]);
@@ -132,9 +155,23 @@ export const Results = (props) => {
                     ))}
                   </TableBody>
                 </Table>
+                
+
               </TableContainer>
 
           </Stack>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', pt: 2 }}>
+            <Button onClick={() => exportToExcel(result)} sx={{ mt: 2, mb: 2, ml: 2 }} variant="contained" color="primary">
+                Exportar a Excel
+                <SvgIcon
+                  fontSize="small"
+                  color="white"
+                  sx={{ ml: 1 }}
+                >
+                  <ExcelIcon />
+                </SvgIcon>
+            </Button>
+          </Box>
         </Box>
       </Card>
     </div>
