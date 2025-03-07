@@ -77,7 +77,7 @@ const Page = () => {
 
                       <Stack spacing={3} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
                         <ReactPlayer
-                          url="/assets/videos/agronomy.mp4"
+                          url="/assets/videos/composting.mp4"
                           controls
                           style={{ borderRadius: 8 }}
                         />
@@ -154,7 +154,7 @@ const Page = () => {
 
                       <Stack spacing={3} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
                         <ReactPlayer
-                          url="#"
+                          url="/assets/videos/how-to-use.mp4"
                           controls
                           style={{ borderRadius: 8 }}
                         />
