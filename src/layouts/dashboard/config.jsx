@@ -34,7 +34,7 @@ export const items = [
     label: 'Soporte'
   },
   {
-    href: 'https://cncalculator.github.io/',
+    href: 'https://compostconcncalculator.blogspot.com/',
     icon: (
       <SvgIcon>
         <DocumentTextIcon />
