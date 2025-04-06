@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { View, ActivityIndicator, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
+import { View, ActivityIndicator, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, AppState } from 'react-native'
 import Stepper from 'react-native-stepper-ui-jm';
 import { ListItem, Image, Dialog } from '@rneui/themed';
 import { config } from '../../config';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Connection from '../../components/Connection';
+import StatusApp from '../../components/StatusApp';
 
 const loading = () => {
     //Se utiliza para mostrar loading mientras se hace la peticion.
@@ -26,10 +29,10 @@ const General = (props) => {
             <Text style={styles.textSecundary}>Ingresa los campos requeridos</Text>
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'left', marginBottom: 5 }}>Unidad de medida</Text>
+                <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'left', color: '#371B34' }}>Unidad de medida: </Text>
                 <Picker
                     selectedValue={props.unit}
-                    style={{ height: 50, width: 150 }}
+                    style={{ height: 50, width: 150, color: "#552b51" }}
                     onValueChange={(itemValue, itemIndex) => {
                         props.setUnit(itemValue)
                         props.setWeight('')
@@ -37,18 +40,20 @@ const General = (props) => {
                 >
                     <Picker.Item label="Libras" value="lb" />
                     <Picker.Item label="Kilogramos" value="kg" />
+                    <Picker.Item label="Toneladas" value="t" />
+                    <Picker.Item label="Quintales" value="q" />
                 </Picker>
             </View>
 
-            <TextInput style={styles.inputText} placeholder='Ingresa el peso' onChangeText={props.setWeight} value={props.weight} keyboardType='numeric' />
+            <TextInput style={styles.inputText} placeholder='Ingresa el peso' placeholderTextColor={'#371B34'} onChangeText={props.setWeight} value={props.weight} keyboardType='numeric' />
 
-            <TextInput style={styles.inputText} placeholder='Ingresa el valor de C:N' onChangeText={props.setCn} value={props.cn} keyboardType='number-pad' />
+            <TextInput style={styles.inputText} placeholder='Ingresa el valor de C:N' placeholderTextColor={'#371B34'} onChangeText={props.setCn} value={props.cn} keyboardType='number-pad' />
 
             <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => props.navigation.navigate('Operation')}
             >
-                <Text style={{ textAlign: "center", fontSize: 14, color: "#43484d", marginTop: 10 }}>¿Has revisado el centro de ayuda?</Text>
+                <Text style={{ textAlign: "center", fontSize: 14, color: "#552b51", marginTop: 10 }}>¿Has revisado el centro de ayuda?</Text>
             </TouchableOpacity>
 
         </View>
@@ -96,16 +101,18 @@ const Ingredients = (props) => {
                     <>
                         {/* cn <= 20 */}
                         <View style={{ marginTop: 20 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', marginBottom: 5 }}>Grupo C:N Menor</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', marginBottom: 5, color: '#573926' }}>Grupo C:N Menor</Text>
                             {
                                 props.ingredients.map((item, index) => {
                                     if (item.carbon_nitrogen <= props.cn) {
                                         return (
                                             <ListItem bottomDivider key={index}>
                                                 <ListItem.Content>
-                                                    <ListItem.Title>{item.name}</ListItem.Title>
+                                                    <ListItem.Title style={{
+                                                        color: '#552b51'
+                                                    }}>{item.name}</ListItem.Title>
                                                     <ListItem.Subtitle
-                                                        style={{ fontStyle: "italic" }}
+                                                        style={{ fontStyle: "italic", color: '#371B34' }}
                                                     >c:n {item.carbon_nitrogen}</ListItem.Subtitle>
                                                 </ListItem.Content>
                                                 <ListItem.CheckBox
@@ -127,16 +134,18 @@ const Ingredients = (props) => {
 
                         {/* cn > 20 */}
                         <View style={{ marginTop: 20 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', marginBottom: 5 }}>Grupo C:N Mayor</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', marginBottom: 5, color: '#573926' }}>Grupo C:N Mayor</Text>
                             {
                                 props.ingredients.map((item, index) => {
                                     if (item.carbon_nitrogen > props.cn) {
                                         return (
                                             <ListItem bottomDivider key={index}>
                                                 <ListItem.Content>
-                                                    <ListItem.Title>{item.name}</ListItem.Title>
+                                                    <ListItem.Title style={{
+                                                        color: '#552b51'
+                                                    }} >{item.name}</ListItem.Title>
                                                     <ListItem.Subtitle
-                                                        style={{ fontStyle: "italic" }}
+                                                        style={{ fontStyle: "italic", color: '#371B34' }}
                                                     >c:n {item.carbon_nitrogen}</ListItem.Subtitle>
                                                 </ListItem.Content>
                                                 <ListItem.CheckBox
@@ -299,6 +308,10 @@ const Main = ({
     const [ingredients, setIngredients] = useState([]);
     const [active, setActive] = useState(0);
 
+    const [appStatus, setAppStatus] = useState(AppState.currentState);
+    const [isConnected, setIsConnected] = useState(true);
+    const [connectionType, setConnectionType] = useState('none');
+
     const content = [
         <General navigation={navigation} weight={weight} setWeight={setWeight} cn={cn} setCn={setCn} unit={unit} setUnit={setUnit} />,
         <Ingredients ingredients={ingredients} setIngredients={setIngredients} ingredientsSelected={ingredientsSelected} setIngredientsSelected={setIngredientsSelected} cn={cn} />,
@@ -329,6 +342,8 @@ const Main = ({
                     stepStyle={{ backgroundColor: "#F09E54" }}
                     buttonStyle={{ backgroundColor: "#53A06E" }}
                 />
+                <StatusApp appStatus={appStatus} setAppStatus={setAppStatus} navigation={navigation} />
+                <Connection setIsConnected={setIsConnected} setConnectionType={setConnectionType} navigation={navigation} />
             </View>
         </ScrollView>
     )
@@ -348,20 +363,21 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 10,
-        color: "#43484d"
+        color: "#371B34"
     },
     textSecundary: {
         fontSize: 14,
         fontWeight: "400",
         textAlign: "center",
         lineHeight: 20,
-        color: "gray",
+        color: "#552b51",
         marginBottom: 20
     },
     inputText: {
         borderWidth: 1,
         borderRadius: 5,
-        borderColor: "#D9D9D9",
+        borderColor: "#F09E54",
+        color: "#371B34",
         padding: 8,
         marginBottom: 15
     },
@@ -449,12 +465,13 @@ const stylesTable = StyleSheet.create({
         padding: 10,
         fontSize: 14,
         fontWeight: '500',
+        color: '#371B34',
     },
     itemRight: {
         padding: 10,
         fontSize: 14,
         fontWeight: '400',
-        color: '#747474',
+        color: '#573926',
     },
     headerLeft: {
         padding: 10,

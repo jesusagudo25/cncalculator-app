@@ -1,8 +1,11 @@
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, AppState } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { config } from '../../config';
 import { Image } from '@rneui/themed'
+
+import Connection from '../../components/Connection';
+import StatusApp from '../../components/StatusApp';
 
 const loading = () => {
   //Se utiliza para mostrar loading mientras se hace la peticion.
@@ -18,6 +21,10 @@ const Show = ({ route, navigation }) => {
   const [id, setId] = useState(route.params.id);
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState([]);
+
+  const [appStatus, setAppStatus] = useState(AppState.currentState);
+  const [isConnected, setIsConnected] = useState(true);
+  const [connectionType, setConnectionType] = useState('none');
 
   useEffect(() => {
     if (route.params?.id) {
@@ -77,6 +84,8 @@ const Show = ({ route, navigation }) => {
 
             </View>
         }
+        <StatusApp appStatus={appStatus} setAppStatus={setAppStatus} navigation={navigation} />
+        <Connection setIsConnected={setIsConnected} setConnectionType={setConnectionType} navigation={navigation} />
       </View>
     </ScrollView>
   )
@@ -96,14 +105,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    color: "#43484d"
+    color: "#371B34"
   },
   textSecundary: {
     fontSize: 14,
     fontWeight: "400",
     textAlign: "center",
     lineHeight: 20,
-    color: "gray",
+    color: "#552b51",
     marginBottom: 20
   },
   inputText: {
@@ -197,12 +206,13 @@ const stylesTable = StyleSheet.create({
     padding: 10,
     fontSize: 14,
     fontWeight: '500',
+    color: '#371B34',
   },
   itemRight: {
     padding: 10,
     fontSize: 14,
     fontWeight: '400',
-    color: '#747474',
+    color: '#573926',
   },
   headerLeft: {
     padding: 10,

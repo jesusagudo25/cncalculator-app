@@ -1,27 +1,45 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Button, Image, Dialog } from '@rneui/themed'
 import axios from 'axios'
 import { config } from '../../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Connection from '../../../components/Connection';
+
+const loadingIndicator = () => {
+  //Se utiliza para mostrar loading mientras se hace la peticion.
+  return (
+    <View>
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  );
+};
+
 const Question = ({
   navigation,
   route
 }) => {
+
+  const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(false)
   const [questionsRandom, setQuestionsRandom] = useState([])
   const [showDialog, setShowDialog] = useState(false);
+
+  const [isConnected, setIsConnected] = useState(true);
+  const [connectionType, setConnectionType] = useState('none');
 
   useEffect(() => {
     getQuestions()
   }, []);
 
   const getQuestions = async () => {
+
     try {
       const response = await axios.get(`${config.API_URL}/questions`)
       const questionsRandom = response.data.sort(() => Math.random() - 0.5).slice(0, 2)
       setQuestionsRandom(questionsRandom)
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -64,83 +82,93 @@ const Question = ({
   }
 
   return (
-    <View style={styles.container}>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Image source={require('../../../../assets/images/questions.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
-      </View>
-      <Text style={styles.textPrimary}>Preguntas de seguridad</Text>
-      <Text style={styles.textSecundary}>Las preguntas de seguridad son una forma de recuperar tu cuenta en caso de que olvides tu contraseña.</Text>
+    <ScrollView style={{ backgroundColor: "#fff" }}>
+      <View style={styles.container}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Image source={require('../../../../assets/images/questions.png')} style={{ width: 250, height: 160, alignSelf: "center" }} />
+        </View>
+        <Text style={styles.textPrimary}>Preguntas de seguridad</Text>
+        <Text style={styles.textSecundary}>Las preguntas de seguridad son una forma de recuperar tu cuenta en caso de que olvides tu contraseña.</Text>
 
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: "bold",
-          textAlign: "left",
-          marginBottom: 14,
-          color: "#43484d"
-        }}
-      >
-        {questionsRandom[0] && questionsRandom[0].title}
-      </Text>
-      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
-        onChangeText={text => setQuestionsRandom(questionsRandom.map((question, index) => {
-          if (index === 0) {
-            return { ...question, answer: text }
-          }
-          return question
-        }))}
-      />
+        {
+          isLoading ? loadingIndicator() : (
+            <View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  marginBottom: 14,
+                  color: "#371B34"
+                }}
+              >
+                {questionsRandom[0] && questionsRandom[0].title}
+              </Text>
+              <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
+                onChangeText={text => setQuestionsRandom(questionsRandom.map((question, index) => {
+                  if (index === 0) {
+                    return { ...question, answer: text }
+                  }
+                  return question
+                }))}
+                placeholderTextColor={'#371B34'}
+              />
 
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: "bold",
-          textAlign: "left",
-          marginBottom: 14,
-          color: "#43484d"
-        }}
-      >
-        {questionsRandom[1] && questionsRandom[1].title}
-      </Text>
-      <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
-        onChangeText={
-          text => setQuestionsRandom(questionsRandom.map((question, index) => {
-            if (index === 1) {
-              return { ...question, answer: text }
-            }
-            return question
-          }))
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  marginBottom: 14,
+                  color: "#371B34"
+                }}
+              >
+                {questionsRandom[1] && questionsRandom[1].title}
+              </Text>
+              <TextInput style={styles.inputText} placeholder='Ingresa tu respuesta'
+                onChangeText={
+                  text => setQuestionsRandom(questionsRandom.map((question, index) => {
+                    if (index === 1) {
+                      return { ...question, answer: text }
+                    }
+                    return question
+                  }))
+                }
+                placeholderTextColor={'#371B34'}
+              />
+
+              <Dialog
+                isVisible={showDialog}
+                onBackdropPress={() => setShowDialog(false)}
+              >
+                <Dialog.Title title="Error" />
+                <Text>Por favor, ingresa las respuestas a las preguntas de seguridad.</Text>
+              </Dialog>
+
+              <Button
+                title='Registrarse'
+                containerStyle={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginBottom: 20
+                }}
+                buttonStyle={{
+                  backgroundColor: "#53A06E",
+                  borderRadius: 3,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10
+                }}
+                onPress={handleRegister}
+                loading={loading}
+              />
+            </View>
+          )
         }
-      />
 
-      <Dialog
-        isVisible={showDialog}
-        onBackdropPress={() => setShowDialog(false)}
-      >
-        <Dialog.Title title="Error" />
-        <Text>Por favor, ingresa las respuestas a las preguntas de seguridad.</Text>
-      </Dialog>
-
-      <Button
-        title='Registrarse'
-        containerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-          marginBottom: 20
-        }}
-        buttonStyle={{
-          backgroundColor: "#53A06E",
-          borderRadius: 3,
-          paddingHorizontal: 15,
-          paddingVertical: 10
-        }}
-        onPress={handleRegister}
-        loading={loading}
-      />
-
-
-    </View>
+        <Connection setIsConnected={setIsConnected} setConnectionType={setConnectionType} navigation={navigation} />
+      </View>
+    </ScrollView>
   )
 }
 
@@ -151,26 +179,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 30,
-    backgroundColor: "white"
+    marginTop: 25,
+    backgroundColor: "#fff"
   },
   textPrimary: {
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    color: "#43484d"
+    color: "#371B34"
   },
   textSecundary: {
     fontSize: 14,
     fontWeight: "400",
     textAlign: "center",
-    color: "gray",
+    lineHeight: 20,
+    color: "#552b51",
     marginBottom: 20
   },
   inputText: {
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: "#D9D9D9",
+    borderColor: "#F09E54",
+    color: "#371B34",
     padding: 8,
     marginBottom: 15
   },
@@ -211,5 +242,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "auto"
-  }
+  },
 });

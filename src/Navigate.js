@@ -23,14 +23,16 @@ const Stack = createNativeStackNavigator();
 const Navigate = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login" screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#53A06E',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                }
-            }}
+            <Stack.Navigator
+                initialRouteName="Login"
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: '#53A06E',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                    }
+                }}
             >
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 <Stack.Group>
@@ -40,8 +42,8 @@ const Navigate = () => {
                 </Stack.Group>
 
                 <Stack.Group>
-                    <Stack.Screen name="Agronomic" component={Agronomic} options={{ title: 'agronomía' }}/>
-                    <Stack.Screen name="Operation" component={Operation} options={{ title: 'Operación' }}/>
+                    <Stack.Screen name="Agronomic" component={Agronomic} options={{ title: 'Agronomía' }} />
+                    <Stack.Screen name="Operation" component={Operation} options={{ title: 'Operación' }} />
                     <Stack.Screen name="Premium" component={Premium} options={{ title: 'Plan Premium' }} />
                 </Stack.Group>
 
