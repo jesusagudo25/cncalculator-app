@@ -1,15 +1,1 @@
-{
-  "short_name": "C:N Calculator",
-  "name": "C:N Calculator",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}
+{"id":"/","name":"C:N Calculator — Mezclas de compost","short_name":"C:N Calculator","lang":"es","description":"Calcula mezclas de compost, incluso sin conexión.","start_url":"/","scope":"/","display":"standalone","theme_color":"#24543d","background_color":"#f5f7f3","icons":[{"src":"/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"}]}

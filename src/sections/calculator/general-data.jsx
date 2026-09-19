@@ -74,7 +74,7 @@ export const GeneralData = (props) => {
         <form onSubmit={formik.handleSubmit}>
 
           <Box >
-            <Stack spacing={3}>
+            <Stack className="general-fields">
               <TextField
                 error={Boolean(formik.touched.name && formik.errors.name)}
                 fullWidth
@@ -113,7 +113,7 @@ export const GeneralData = (props) => {
                 error={Boolean(formik.touched.weight && formik.errors.weight)}
                 fullWidth
                 helperText={formik.touched.weight && formik.errors.weight}
-                label="Peso"
+                label="Peso total de la mezcla"
                 name="weight"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -126,7 +126,7 @@ export const GeneralData = (props) => {
                 error={Boolean(formik.touched.cn && formik.errors.cn)}
                 fullWidth
                 helperText={formik.touched.cn && formik.errors.cn}
-                label="C:N"
+                label="Relación C:N objetivo"
                 name="cn"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -152,7 +152,7 @@ export const GeneralData = (props) => {
                 type="submit"
                 variant="contained"
               >
-                Guardar
+                Continuar a ingredientes
               </Button>
             </Box>
 

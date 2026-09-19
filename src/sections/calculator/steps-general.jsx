@@ -1,141 +1,28 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 import { GeneralData } from './general-data';
 import { Ingredients } from './ingredients';
 import { Results } from './results';
-import { Card, Stack } from '@mui/material';
-
-const steps = ['Datos generales', 'Selección de ingredientes', 'Resultado'];
-
-export const StepsGeneral = (props) => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const [formData, setFormData] = React.useState({});
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-
-
-    const {cn } = formData.generalData ? formData.generalData : 0;
-
-    if (activeStep === 0 && !formData.generalData) {
-      alert('Por favor, debe guardar los datos para continuar...');
-      return;
-    }
-
-    if (activeStep === 1 && !formData.ingredients) {
-      alert('Por favor, debe guardar los ingredientes para continuar...');
-      return;
-    }
-
-    if(activeStep === 1 && formData.ingredients.length ){
-      console.log('No hay ingredientes seleccionados');
-      const countCnLess = formData.ingredients.filter((item) => item.carbon_nitrogen <= cn).length;
-      const countCnMore = formData.ingredients.filter((item) => item.carbon_nitrogen > cn).length;
-      if(countCnLess < 1){
-        alert('No hay ingredientes con C:N menor o igual a ' + cn);
-        return;
-      }
-      if(countCnMore < 1){
-        alert('No hay ingredientes con C:N mayor a ' + cn);
-        return;
-      }
-    }
-      
-    
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-    
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    //setActiveStep(0);
-    location.reload();
-  };
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <div>
-            <Card sx={{ p: 5 }}>
-              <Box >
-                <Stack spacing={3}>
-                  <img src="/assets/images/fertilizer.png" alt="logo" style={{ width: '100px', height: '100px', margin: 'auto' }} />
-                  <Typography sx={{ mt: 2, mb: 1, textAlign: 'center' }} variant="h4">
-                    ¡Gracias {formData.generalData.name} por utilizar nuestra calculadora!
-                  </Typography>
-                  <Typography sx={{ mt: 2, mb: 1, textAlign: 'center' }} variant="body1">
-                    Por favor, tome nota de los resultados y no olvide guardarlos.
-                  </Typography>
-                </Stack>
-              </Box>
-            </Card>
-          </div>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reiniciar</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-
-          {
-            activeStep === 0 ? <GeneralData formData={formData} setFormData={setFormData} /> :
-              activeStep === 1 ? <Ingredients formData={formData} setFormData={setFormData} /> :
-                activeStep === 2 ? <Results formData={formData} setFormData={setFormData} /> : null
-          }
-
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Atrás
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
-    </Box>
-  );
+const steps = ['Datos generales', 'Ingredientes', 'Resultados'];
+export function StepsGeneral() {
+ const [activeStep,setActiveStep]=useState(0);
+ const [formData,setFormData]=useState({});
+ const [error,setError]=useState('');
+ const heading=useRef(null);
+ useEffect(()=>{if(activeStep>0) heading.current?.focus();},[activeStep]);
+ const saveGeneral = data => {setFormData(data);setError('');setActiveStep(1);};
+ const saveIngredients = data => {
+  const cn=data.generalData.cn;
+  setFormData(data);
+  if (!data.ingredients.some(item=>item.carbon_nitrogen<=cn)) {setError('Selecciona al menos un ingrediente con C:N menor o igual a '+cn+'.');return;}
+  if (!data.ingredients.some(item=>item.carbon_nitrogen>cn)) {setError('Selecciona al menos un ingrediente con C:N mayor a '+cn+'.');return;}
+  setError('');setActiveStep(2);
+ };
+ return <Box sx={{width:'100%'}}><Stepper activeStep={activeStep}>{steps.map(label=><Step key={label}><StepLabel>{label}</StepLabel></Step>)}</Stepper>
+ <div className="step-intro"><h2 ref={heading} tabIndex={-1}>{['Define tu mezcla','Elige tus ingredientes','Tu mezcla, lista para preparar'][activeStep]}</h2><p>{['Indica el peso total, la unidad y la relación C:N que buscas.','Selecciona al menos un ingrediente de cada grupo.','Consulta las cantidades y guarda una copia de tus resultados.'][activeStep]}</p></div>
+ {activeStep>0 && <div className="summary-strip"><span>Peso total<strong>{formData.generalData.weight} {formData.generalData.units}</strong></span><span>C:N objetivo<strong>{formData.generalData.cn}:1</strong></span></div>}
+ {error && <Alert severity="warning" sx={{mt:2}}>{error}</Alert>}
+ {activeStep===0 ? <GeneralData formData={formData} setFormData={saveGeneral}/> : activeStep===1 ? <Ingredients formData={formData} setFormData={saveIngredients}/> : <Results formData={formData} setFormData={setFormData}/>}
+ {activeStep>0 && <Box className="wizard-actions" sx={{display:'flex',justifyContent:'space-between'}}><Button color="inherit" onClick={()=>{setError('');setActiveStep(activeStep-1);}}>Atrás</Button>{activeStep===2 && <Button onClick={()=>{setFormData({});setError('');setActiveStep(0);}}>Nueva mezcla</Button>}</Box>}
+ </Box>;
 }
-
-StepsGeneral.propTypes = {
-
-};

@@ -128,8 +128,8 @@ export const Results = (props) => {
 
           <Stack spacing={5} direction="row" justifyContent="center" sx={{ mt: 3 }}>
 
-              <TableContainer sx={{ width: '60%', borderRadius: 2, boxShadow: 2, shadow: 2, border: 1, borderColor: 'divider' }}>
-                <Table sx={{ minWidth: 650, borderRadius: 2 }} >
+              <TableContainer sx={{ width: '100%', borderRadius: 2, boxShadow: 2, shadow: 2, border: 1, borderColor: 'divider' }}>
+                <Table sx={{ width: "100%", tableLayout: "fixed", borderRadius: 2 }} >
                   <TableHead >
                     <TableRow>
                       <TableCell sx={{ textAlign: 'center', width: '50%' }}>
@@ -182,5 +182,3 @@ Results.propTypes = {
   formData: PropTypes.object,
   setFormData: PropTypes.func
 }
-
-

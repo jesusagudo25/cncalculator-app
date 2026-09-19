@@ -24,7 +24,7 @@ export const createPalette = (config) => {
     info,
     mode: 'light',
     neutral,
-    primary: getPrimary(colorPreset),
+    primary: { ...getPrimary(colorPreset), main: '#24543d', dark: '#173c2a', light: '#648668', contrastText: '#ffffff' },
     success,
     text: {
       primary: neutral[900],
